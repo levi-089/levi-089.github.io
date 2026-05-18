@@ -26,17 +26,13 @@
   border-bottom: 1px solid rgba(0,0,0,0.06) !important;
 }
 
-/* Logo visible on transparent nav — white pill background */
+/* Logo visible on transparent nav */
 #nav .nav-logo-img {
-  background: rgba(255,255,255,0.88);
-  border-radius: 8px;
-  padding: 3px 6px;
-  backdrop-filter: blur(4px);
-  transition: background 0.3s;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));
+  transition: filter 0.3s;
 }
 #nav.scrolled .nav-logo-img {
-  background: transparent;
-  padding: 0;
+  filter: none;
 }
 
 /* ── PAGE LOAD ───────────────────────────────── */
@@ -420,7 +416,7 @@ body.ready .page-wrap { opacity: 1; }
 
 .services__title-wrapper {
   position: relative;
-  min-height: clamp(7rem, 16vw, 16rem);
+  height: clamp(7rem, 16vw, 16rem);
 }
 
 .svc-title {
@@ -429,7 +425,8 @@ body.ready .page-wrap { opacity: 1; }
   opacity: 0; pointer-events: none;
   will-change: transform, opacity;
 }
-.svc-title.active { position: relative; opacity: 1; pointer-events: auto; }
+/* Solo pointer-events — sin position toggle para evitar saltos de layout */
+.svc-title.active { pointer-events: auto; }
 
 .svc-title__line {
   display: block;

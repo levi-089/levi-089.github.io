@@ -191,74 +191,101 @@ export function initScrollAnimations(qunoxScene) {
 
   let _svcIdx = 0;
 
-  // Initialize service 0 statically — no animation, panel is ready before pin engages.
-  // All subsequent transitions (including returning to 0 from 1) go through onUpdate.
+  // Inicializa servicio 0 sin animación — todos los títulos quedan position:absolute
   (() => {
     const svc0 = SERVICES[0];
     _accentBar.style.background = svc0.accent;
     qunoxScene.setServiceMode(0);
     const t = document.querySelector('.svc-title[data-svc="0"]');
     t.classList.add('active');
-    gsap.set(t, { y: 0, opacity: 1 });
+    gsap.set(t, { opacity: 1, y: 0 });
     const img = document.querySelector('.svc-img[data-svc="0"]');
     img.classList.add('active');
-    gsap.set(img, { opacity: 1 });
-    document.getElementById('services-copy-text').textContent = svc0.copy;
-    document.getElementById('services-link').href = svc0.link;
+    gsap.set(img, { opacity: 1, scale: 1 });
+    const copyEl = document.getElementById('services-copy-text');
+    const linkEl = document.getElementById('services-link');
+    gsap.set([copyEl, linkEl], { opacity: 1, y: 0 });
+    copyEl.textContent = svc0.copy;
+    linkEl.href = svc0.link;
   })();
 
   function transitionToService(newIdx, oldIdx) {
     if (newIdx === oldIdx) return;
-    const svc = SERVICES[newIdx];
-    const dir = (oldIdx < 0) ? 1 : (newIdx > oldIdx ? 1 : -1);
+    const svc   = SERVICES[newIdx];
+    const dir   = newIdx > oldIdx ? 1 : -1;
 
     _accentBar.style.background = svc.accent;
     qunoxScene.setServiceMode(newIdx);
 
-    // ── Title ──────────────────────────────────────
+    // ── Títulos: GSAP maneja todo, sin toggle de position ──────────
     document.querySelectorAll('.svc-title').forEach(t => {
-      if (t !== document.querySelector(`.svc-title[data-svc="${newIdx}"]`)) {
-        gsap.killTweensOf(t);
-        gsap.to(t, { opacity: 0, y: dir * -18, duration: 0.3, ease: 'power3.in',
-          onComplete: () => { t.classList.remove('active'); gsap.set(t, { clearProps: 'all' }); }
+      const i = parseInt(t.dataset.svc);
+      if (i === newIdx) return;
+      gsap.killTweensOf(t);
+      const currentOpacity = parseFloat(gsap.getProperty(t, 'opacity')) || 0;
+      if (currentOpacity > 0.05) {
+        gsap.to(t, {
+          opacity: 0, y: dir * -36,
+          duration: 0.4, ease: 'power2.in',
+          onComplete: () => {
+            t.classList.remove('active');
+            gsap.set(t, { y: 0 });
+          }
         });
+      } else {
+        t.classList.remove('active');
+        gsap.set(t, { opacity: 0, y: 0 });
       }
     });
-    const newTitle = document.querySelector(`.svc-title[data-svc="${newIdx}"]`);
-    gsap.set(newTitle, { y: dir * 28, opacity: 0 });
-    newTitle.classList.add('active');
-    gsap.to(newTitle, { y: 0, opacity: 1, duration: 0.65, ease: 'power4.out' });
 
-    // ── Image ──────────────────────────────────────
-    const oldImg = oldIdx >= 0 ? document.querySelector(`.svc-img[data-svc="${oldIdx}"]`) : null;
+    const newTitle = document.querySelector(`.svc-title[data-svc="${newIdx}"]`);
+    gsap.killTweensOf(newTitle);
+    newTitle.classList.add('active');
+    gsap.fromTo(newTitle,
+      { opacity: 0, y: dir * 44 },
+      { opacity: 1, y: 0, duration: 0.75, ease: 'power4.out', delay: 0.08 }
+    );
+
+    // ── Imágenes: crossfade limpio con escala sutil ─────────────────
+    const oldImg = document.querySelector(`.svc-img[data-svc="${oldIdx}"]`);
     const newImg = document.querySelector(`.svc-img[data-svc="${newIdx}"]`);
+
     if (oldImg) {
-      gsap.to(oldImg, { opacity: 0, scale: 1.04, duration: 0.45, ease: 'power2.in',
-        onComplete: () => { oldImg.classList.remove('active'); gsap.set(oldImg, { scale: 1 }); }
+      gsap.killTweensOf(oldImg);
+      gsap.to(oldImg, {
+        opacity: 0, duration: 0.5, ease: 'power2.inOut',
+        onComplete: () => {
+          oldImg.classList.remove('active');
+          gsap.set(oldImg, { scale: 1 });
+        }
       });
     }
-    gsap.set(newImg, { opacity: 0, scale: 1.06 });
+    gsap.killTweensOf(newImg);
+    gsap.set(newImg, { opacity: 0, scale: 1.05 });
     newImg.classList.add('active');
-    gsap.to(newImg, { opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out' });
+    gsap.to(newImg, { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out' });
 
-    // ── Copy + link ────────────────────────────────
+    // ── Texto copy ──────────────────────────────────────────────────
     const copyEl = document.getElementById('services-copy-text');
     const linkEl = document.getElementById('services-link');
     gsap.killTweensOf([copyEl, linkEl]);
     gsap.to([copyEl, linkEl], {
-      opacity: 0, y: dir * 8, duration: 0.2, ease: 'power2.in',
+      opacity: 0, y: dir * 10, duration: 0.22, ease: 'power2.in',
       onComplete: () => {
         copyEl.textContent = svc.copy;
         linkEl.href = svc.link;
         gsap.fromTo([copyEl, linkEl],
           { opacity: 0, y: dir * -10 },
-          { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out' }
+          { opacity: 1, y: 0, duration: 0.55, stagger: 0.09, ease: 'power3.out' }
         );
       }
     });
 
-    // ── Accent bar ─────────────────────────────────
-    gsap.fromTo(_accentBar, { width: '0%' }, { width: '100%', duration: 0.55, ease: 'power3.out' });
+    // ── Barra de acento ─────────────────────────────────────────────
+    gsap.fromTo(_accentBar,
+      { width: '0%' },
+      { width: '100%', duration: 0.6, ease: 'power3.out' }
+    );
   }
 
   // ── Pin — no snap, user controls scroll entirely.
