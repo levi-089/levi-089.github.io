@@ -677,111 +677,86 @@ body.ready .page-wrap { opacity: 1; }
    ACERCA DE NOSOTROS
    ================================================ */
 .scene--about {
-  background: #fff;
-  padding: 8rem 4rem;
+  background: #E8E8E8;
+  padding: 7rem 4rem 5rem;
   position: relative;
 }
 
 .about__container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
+/* ── Header: eyebrow left, headline right ── */
+.about__header {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin-bottom: 5rem;
+}
+
 .about__eyebrow {
-  display: block;
   font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.75rem; font-weight: 500;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--blue, #4361EE);
-  margin-bottom: 1.75rem;
+  font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(17,17,17,0.5);
+  padding-top: 0.65rem;
+  line-height: 1.6;
 }
 
 .about__headline {
   font-family: var(--font-head, 'Space Grotesk', sans-serif);
-  font-size: clamp(2.2rem, 4.5vw, 4.5rem);
-  font-weight: 700; line-height: 1.05;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
   letter-spacing: -0.03em;
-  color: var(--ink, #0D0D1A);
-  margin-bottom: 2rem;
+  margin: 0;
+  color: #111;
 }
 
-.about__headline-accent {
+.about__hl-dark { color: #111111; }
+
+.about__hl-gray { color: rgba(17,17,17,0.3); }
+
+/* ── Icons row ── */
+.about__icons {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.about__icon {
+  flex: 1;
+  min-width: 0;
+}
+
+.about__icon svg {
+  width: 100%;
+  height: auto;
   display: block;
-  background: linear-gradient(135deg, var(--blue, #4361EE), var(--purple, #7209B7));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  color: rgba(0,0,0,0.14);
+  fill: currentColor;
 }
 
-.about__divider {
-  width: 56px; height: 3px;
-  background: linear-gradient(90deg, var(--blue, #4361EE), var(--purple, #7209B7));
-  border-radius: 2px;
-  margin-bottom: 3rem;
-}
-
-/* 2-column layout */
-.about__layout {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 5rem;
-  align-items: start;
-}
-
-.about__lead {
-  font-family: var(--font-head, 'Space Grotesk', sans-serif);
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-  font-weight: 600; line-height: 1.65;
-  color: var(--ink, #0D0D1A);
-  margin-bottom: 1.75rem;
-  letter-spacing: -0.01em;
-}
-
-.about__text {
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: clamp(0.9rem, 1.05vw, 1rem);
-  line-height: 1.9; color: #4A4A5A;
-  margin-bottom: 1.5rem;
-}
-
-/* Right column — pillar list */
-.about__right {
-  display: flex; flex-direction: column;
-  border-left: 1px solid rgba(67,97,238,0.14);
-  padding-left: 2.5rem;
-  position: sticky;
-  top: calc(90px + 3rem);
-}
-
-.about__pillar {
-  display: flex; gap: 1.25rem; align-items: flex-start;
-  padding: 1.4rem 0;
-  border-bottom: 1px solid rgba(67,97,238,0.07);
-}
-.about__pillar:last-child { border-bottom: none; }
-
-.about__pillar-num {
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.68rem; font-weight: 700;
-  color: var(--blue, #4361EE);
-  letter-spacing: 0.1em;
-  flex-shrink: 0; padding-top: 0.2rem;
-}
-
-.about__pillar-text {
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.9rem; line-height: 1.65;
-  color: var(--body, #3A3A4A); font-weight: 500;
-}
-
+/* ── Responsive ── */
 @media (max-width: 960px) {
-  .about__layout { grid-template-columns: 1fr; gap: 2.5rem; }
-  .about__right {
-    border-left: none; padding-left: 0;
-    border-top: 1px solid rgba(67,97,238,0.12);
-    padding-top: 2rem; position: static;
+  .about__header {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
   }
+  .about__eyebrow { padding-top: 0; }
+  .about__icons { gap: 0.5rem; }
 }
+
 @media (max-width: 768px) {
-  .scene--about { padding: 5rem 1.5rem; }
+  .scene--about { padding: 5rem 1.5rem 3.5rem; }
+  .about__headline { font-size: clamp(1.6rem, 6vw, 2.8rem); }
+  .about__icons { flex-wrap: wrap; }
+  .about__icon { flex: 0 0 calc(33.33% - 0.5rem); }
   .scene--partners { padding: 3rem 0 3.5rem; }
   .partners__ticker-item span { font-size: 1rem; }
   .partners__ticker-item { padding: 0.5rem 1.5rem; }
