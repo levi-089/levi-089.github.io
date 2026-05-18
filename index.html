@@ -75,31 +75,38 @@
         <span class="about__headline-accent">experiencia real.</span>
       </h2>
 
-      <div class="about__stats reveal" data-delay="160">
-        <div class="about__stat">
-          <span class="about__stat-num">15+</span>
-          <span class="about__stat-label">Años de experiencia</span>
-        </div>
-        <div class="about__stat">
-          <span class="about__stat-num">100+</span>
-          <span class="about__stat-label">Proyectos completados</span>
-        </div>
-        <div class="about__stat">
-          <span class="about__stat-num">99.9%</span>
-          <span class="about__stat-label">Uptime garantizado</span>
-        </div>
-      </div>
+      <div class="about__divider reveal" data-delay="140"></div>
 
-      <div class="about__body">
-        <p class="about__lead reveal" data-delay="260">
-          En QUNOX reunimos un equipo con más de 15 años de experiencia en infraestructura de TI, enfocado en el diseño, la optimización y el soporte de entornos tecnológicos críticos.
-        </p>
-        <p class="about__text reveal" data-delay="360">
-          Nuestro respaldo se basa en la experiencia adquirida en proyectos reales, donde hemos trabajado en la implementación y mejora de plataformas que respaldan operaciones clave para nuestros clientes.
-        </p>
-        <p class="about__text reveal" data-delay="460">
-          Nuestro enfoque es claro: entender el entorno actual, identificar oportunidades de mejora y aplicar soluciones que generen estabilidad, eficiencia y control duradero.
-        </p>
+      <div class="about__layout">
+        <div class="about__left">
+          <p class="about__lead reveal" data-delay="200">
+            En QUNOX reunimos un equipo con más de 15 años de experiencia en infraestructura de TI, enfocado en el diseño, la optimización y el soporte de entornos tecnológicos críticos.
+          </p>
+          <p class="about__text reveal" data-delay="300">
+            Nuestro respaldo se basa en la experiencia adquirida en proyectos reales, donde hemos trabajado en la implementación y mejora de plataformas que respaldan operaciones clave para nuestros clientes.
+          </p>
+          <p class="about__text reveal" data-delay="400">
+            Nuestro enfoque es claro: entender el entorno actual, identificar oportunidades de mejora y aplicar soluciones que generen estabilidad, eficiencia y control duradero.
+          </p>
+        </div>
+        <div class="about__right reveal" data-delay="260">
+          <div class="about__pillar">
+            <span class="about__pillar-num">01</span>
+            <span class="about__pillar-text">Diagnóstico profundo antes de cualquier acción</span>
+          </div>
+          <div class="about__pillar">
+            <span class="about__pillar-num">02</span>
+            <span class="about__pillar-text">Soluciones diseñadas para entornos de producción real</span>
+          </div>
+          <div class="about__pillar">
+            <span class="about__pillar-num">03</span>
+            <span class="about__pillar-text">Resultados medibles con impacto directo en el negocio</span>
+          </div>
+          <div class="about__pillar">
+            <span class="about__pillar-num">04</span>
+            <span class="about__pillar-text">Partners certificados: Nutanix, Veeam, VMware, Fortinet</span>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -340,16 +347,72 @@
        PARTNERS
   ============================================ -->
   <section id="scene-partners" class="scene scene--partners">
-    <div class="partners__container">
-      <p class="partners__label">Nuestras Marcas</p>
-      <div class="partners__grid">
-        <div class="partners__item"><img src="images/partners/nutanix.png"  alt="Nutanix"/></div>
-        <div class="partners__item"><img src="images/partners/veeam.png"    alt="Veeam"/></div>
-        <div class="partners__item"><img src="images/partners/vmware.png"   alt="VMware"/></div>
-        <div class="partners__item"><img src="images/partners/fortinet.jpg" alt="Fortinet"/></div>
-        <div class="partners__item"><img src="images/partners/aruba.jpg"    alt="HPE Aruba"/></div>
-        <div class="partners__item"><img src="images/partners/sangfor.svg"  alt="Sangfor"/></div>
+    <p class="partners__label">Nuestras Marcas</p>
+
+    <div class="partners__ticker-outer">
+
+      <!-- Fila 1: izquierda -->
+      <div class="partners__row partners__row--fwd">
+        <div class="partners__row-inner">
+          <div class="partners__ticker-item"><img src="images/partners/nutanix.png" alt=""/><span>Nutanix</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/veeam.png" alt=""/><span>Veeam</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/vmware.png" alt=""/><span>VMware</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/fortinet.jpg" alt=""/><span>Fortinet</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/aruba.jpg" alt=""/><span>HPE Aruba</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/sangfor.svg" alt=""/><span>Sangfor</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <!-- Duplicado para loop continuo -->
+          <div class="partners__ticker-item"><img src="images/partners/nutanix.png" alt=""/><span>Nutanix</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/veeam.png" alt=""/><span>Veeam</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/vmware.png" alt=""/><span>VMware</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/fortinet.jpg" alt=""/><span>Fortinet</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/aruba.jpg" alt=""/><span>HPE Aruba</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/sangfor.svg" alt=""/><span>Sangfor</span></div>
+          <span class="partners__ticker-sep">✦</span>
+        </div>
       </div>
+
+      <!-- Fila 2: derecha -->
+      <div class="partners__row partners__row--rev">
+        <div class="partners__row-inner">
+          <div class="partners__ticker-item"><img src="images/partners/fortinet.jpg" alt=""/><span>Fortinet</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/sangfor.svg" alt=""/><span>Sangfor</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/aruba.jpg" alt=""/><span>HPE Aruba</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/nutanix.png" alt=""/><span>Nutanix</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/vmware.png" alt=""/><span>VMware</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/veeam.png" alt=""/><span>Veeam</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <!-- Duplicado para loop continuo -->
+          <div class="partners__ticker-item"><img src="images/partners/fortinet.jpg" alt=""/><span>Fortinet</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/sangfor.svg" alt=""/><span>Sangfor</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/aruba.jpg" alt=""/><span>HPE Aruba</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/nutanix.png" alt=""/><span>Nutanix</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/vmware.png" alt=""/><span>VMware</span></div>
+          <span class="partners__ticker-sep">✦</span>
+          <div class="partners__ticker-item"><img src="images/partners/veeam.png" alt=""/><span>Veeam</span></div>
+          <span class="partners__ticker-sep">✦</span>
+        </div>
+      </div>
+
     </div>
   </section>
 
