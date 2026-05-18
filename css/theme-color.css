@@ -93,91 +93,11 @@
 }
 
 
-/* ── SCENE 4 — SERVICES (sticky scroll)
-   Decision: the left side holds massive type on pure
-   white — too much negative space. Solutions:
-   1. Apply a faint blue surface tint to the entire
-      sticky panel background
-   2. Add a vertical rule on the centre gap between
-      left title and right detail
-   3. Tint the service counter with blue
-   4. The service number in the counter (#svc-current)
-      already has --ink; upgrade it to --blue for
-      visual hierarchy
-   5. Add a subtle left-edge accent band behind the
-      title area only, using a pseudo-element
+/* ── SCENE 4 — SERVICES GRID
+   New grid layout — no sticky scroll overrides needed.
    ─────────────────────────────────────────────── */
-
-/* Whole scene: extremely faint grid (same motif as About) */
 .scene--services {
-  background-image:
-    linear-gradient(rgba(67, 97, 238, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(67, 97, 238, 0.025) 1px, transparent 1px) !important;
-  background-size: 48px 48px !important;
-}
-
-/* Sticky panel: keep white but give it a hairline tint */
-.services__sticky-panel {
-  background: rgba(248, 249, 255, 0.92) !important; /* --surface at 92% */
-}
-
-/* Counter: blue-tinted current number */
-#svc-current {
-  color: var(--blue, #4361EE) !important;
-}
-
-/* Title area: add a 3 px blue left accent bar that scales with the active title */
-.services__title-area::before {
-  content: '';
-  position: absolute;
-  left: -2.5rem; /* sits in the panel padding gutter */
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 60%;
-  background: linear-gradient(
-    180deg,
-    var(--blue, #4361EE) 0%,
-    var(--purple, #7209B7) 100%
-  );
-  border-radius: 2px;
-  opacity: 0.55;
-}
-
-/* Service title lines: first word keeps --ink, add a subtle
-   underline-tint on hover via the parent .svc-title.active */
-.svc-title.active .svc-title__line:first-child {
-  /* Blue left-edge stripe using box-shadow so it doesn't
-     affect layout or interfere with GSAP transforms */
-  text-shadow: none; /* keep clean — color is handled by other elements */
-}
-
-/* Bottom accent bar for the detail area: upgrade to blue→purple */
-.services__accent-bar {
-  background: linear-gradient(
-    90deg,
-    var(--blue, #4361EE),
-    var(--purple, #7209B7)
-  ) !important;
-  height: 1.5px !important;
-}
-
-/* Progress track: upgrade fill to match */
-.services__progress-fill {
-  background: linear-gradient(
-    180deg,
-    var(--blue, #4361EE),
-    var(--purple, #7209B7)
-  ) !important;
-}
-
-/* Mobile cards: add a left border accent per card */
-.svc-mobile-card {
-  border-left: 2px solid rgba(67, 97, 238, 0.20);
-  padding-left: 1rem;
-}
-.svc-mobile-num {
-  color: var(--blue, #4361EE) !important;
+  background-size: auto !important;
 }
 
 
@@ -272,22 +192,7 @@
    fade effect (avoids hard edge to edge lines).
    ─────────────────────────────────────────────── */
 
-/* Diagnostic → Services transition */
-.scene--diagnostic + .scene--services::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0; left: 5%; right: 5%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(67, 97, 238, 0.15) 30%,
-    rgba(67, 97, 238, 0.15) 70%,
-    transparent
-  );
-  z-index: 5;
-}
+/* Diagnostic → Services: transition handled by background-image gradient in home.css */
 
 /* Services → Closing transition */
 .scene--closing {

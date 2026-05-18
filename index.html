@@ -279,128 +279,138 @@
   </section>
 
   <!-- ============================================
-       SCENE 3-8 — SERVICES  (700vh)
+       SCENE 3-8 — SERVICES GRID
   ============================================ -->
   <section id="scene-services" class="scene scene--services">
+    <div class="svc-grid__container">
 
-    <div id="services-sticky-panel" class="services__sticky-panel">
-
-      <!-- Background curtain divs — scrub-animated, z-index 1-6 -->
-      <div class="svc-bg" data-bg="0"></div>
-      <div class="svc-bg" data-bg="1"></div>
-      <div class="svc-bg" data-bg="2"></div>
-      <div class="svc-bg" data-bg="3"></div>
-      <div class="svc-bg" data-bg="4"></div>
-      <div class="svc-bg" data-bg="5"></div>
-
-      <!-- LEFT: title + copy -->
-      <div class="services__title-area">
-        <div class="services__title-wrapper" id="services-title-wrapper">
-
-          <div class="svc-title" data-svc="0">
-            <span class="svc-title__line">Soporte</span>
-            <span class="svc-title__line svc-title__line--indent">Especializado</span>
-          </div>
-          <div class="svc-title" data-svc="1">
-            <span class="svc-title__line">Optimización</span>
-            <span class="svc-title__line svc-title__line--indent">Estratégica</span>
-          </div>
-          <div class="svc-title" data-svc="2">
-            <span class="svc-title__line">Implementación</span>
-            <span class="svc-title__line svc-title__line--indent">Avanzada</span>
-          </div>
-          <div class="svc-title" data-svc="3">
-            <span class="svc-title__line">Diseño</span>
-            <span class="svc-title__line svc-title__line--indent">de DR</span>
-          </div>
-          <div class="svc-title" data-svc="4">
-            <span class="svc-title__line">Estrategia</span>
-            <span class="svc-title__line svc-title__line--indent">Multi-Cloud</span>
-          </div>
-          <div class="svc-title" data-svc="5">
-            <span class="svc-title__line">Red y</span>
-            <span class="svc-title__line svc-title__line--indent">Ciberseguridad</span>
-          </div>
-        </div>
-
-        <div class="services__copy-slot" id="services-copy-slot">
-          <p class="services__copy-text" id="services-copy-text">
-            Soporte técnico especializado con tiempos de respuesta garantizados. Equipos certificados disponibles para entornos críticos.
-          </p>
-          <a href="servicios/soporte-especializado.html" class="services__link" id="services-link">
-            <span>Ver más</span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </a>
-        </div>
+      <div class="svc-grid__header">
+        <span class="svc-grid__eyebrow">Nuestros Servicios</span>
       </div>
 
-      <!-- RIGHT: image -->
-      <div class="services__detail-area">
-        <div class="services__image-frame" id="services-image-frame">
-          <div class="services__image-inner" id="services-image-inner">
-            <img src="images/services/svc-soporte.jpg"        alt="Soporte Especializado"    class="svc-img active" data-svc="0"/>
-            <img src="images/services/svc-optimizacion.jpg"   alt="Optimización Estratégica" class="svc-img"        data-svc="1"/>
-            <img src="images/services/svc-implementacion.jpg" alt="Implementación Avanzada"  class="svc-img"        data-svc="2"/>
-            <img src="images/services/svc-dr.jpg"             alt="Diseño de DR"             class="svc-img"        data-svc="3"/>
-            <img src="images/services/svc-multicloud.jpg"     alt="Estrategia Multi-Cloud"   class="svc-img"        data-svc="4"/>
-            <img src="images/services/svc-seguridad.jpg"      alt="Red y Ciberseguridad"     class="svc-img"        data-svc="5"/>
+      <div class="svc-grid">
+
+        <!-- 01 -->
+        <a href="servicios/soporte-especializado.html" class="svc-gc">
+          <img src="images/services/svc-soporte.jpg" alt="Soporte Especializado" class="svc-gc__img"/>
+          <div class="svc-gc__overlay"></div>
+          <div class="svc-gc__top">
+            <h3 class="svc-gc__title">Soporte<br>Especializado</h3>
+            <span class="svc-gc__count">/3 áreas</span>
           </div>
-        </div>
-        <div class="services__accent-bar" id="services-accent-bar"></div>
+          <div class="svc-gc__hover">
+            <div class="svc-gc__tags">
+              <span class="svc-gc__tag">L3 Support</span>
+              <span class="svc-gc__tag">SLA garantizado</span>
+              <span class="svc-gc__tag">24/7</span>
+            </div>
+            <span class="svc-gc__more">Habla con un especialista →</span>
+          </div>
+        </a>
+
+        <!-- 02 -->
+        <a href="servicios/optimizacion-estrategica.html" class="svc-gc">
+          <img src="images/services/svc-optimizacion.jpg" alt="Optimización Estratégica" class="svc-gc__img"/>
+          <div class="svc-gc__overlay"></div>
+          <div class="svc-gc__top">
+            <h3 class="svc-gc__title">Optimización<br>Estratégica</h3>
+            <span class="svc-gc__count">/3 áreas</span>
+          </div>
+          <div class="svc-gc__hover">
+            <div class="svc-gc__tags">
+              <span class="svc-gc__tag">Rightsizing</span>
+              <span class="svc-gc__tag">Reducción de costos</span>
+              <span class="svc-gc__tag">90 días</span>
+            </div>
+            <span class="svc-gc__more">Habla con un especialista →</span>
+          </div>
+        </a>
+
+        <!-- 03 -->
+        <a href="servicios/implementacion-avanzada.html" class="svc-gc">
+          <img src="images/services/svc-implementacion.jpg" alt="Implementación Avanzada" class="svc-gc__img"/>
+          <div class="svc-gc__overlay"></div>
+          <div class="svc-gc__top">
+            <h3 class="svc-gc__title">Implementación<br>Avanzada</h3>
+            <span class="svc-gc__count">/3 áreas</span>
+          </div>
+          <div class="svc-gc__hover">
+            <div class="svc-gc__tags">
+              <span class="svc-gc__tag">Zero-downtime</span>
+              <span class="svc-gc__tag">Alta disponibilidad</span>
+              <span class="svc-gc__tag">Rollback</span>
+            </div>
+            <span class="svc-gc__more">Habla con un especialista →</span>
+          </div>
+        </a>
+
+        <!-- 04 -->
+        <a href="servicios/diseno-dr.html" class="svc-gc">
+          <img src="images/services/svc-dr.jpg" alt="Diseño de DR" class="svc-gc__img"/>
+          <div class="svc-gc__overlay"></div>
+          <div class="svc-gc__top">
+            <h3 class="svc-gc__title">Diseño<br>de DR</h3>
+            <span class="svc-gc__count">/3 áreas</span>
+          </div>
+          <div class="svc-gc__hover">
+            <div class="svc-gc__tags">
+              <span class="svc-gc__tag">RTO / RPO</span>
+              <span class="svc-gc__tag">Runbooks</span>
+              <span class="svc-gc__tag">Drills</span>
+            </div>
+            <span class="svc-gc__more">Habla con un especialista →</span>
+          </div>
+        </a>
+
+        <!-- 05 -->
+        <a href="servicios/multi-cloud.html" class="svc-gc">
+          <img src="images/services/svc-multicloud.jpg" alt="Estrategia Multi-Cloud" class="svc-gc__img"/>
+          <div class="svc-gc__overlay"></div>
+          <div class="svc-gc__top">
+            <h3 class="svc-gc__title">Estrategia<br>Multi-Cloud</h3>
+            <span class="svc-gc__count">/3 áreas</span>
+          </div>
+          <div class="svc-gc__hover">
+            <div class="svc-gc__tags">
+              <span class="svc-gc__tag">AWS / Azure / GCP</span>
+              <span class="svc-gc__tag">Sin vendor lock-in</span>
+              <span class="svc-gc__tag">Cost optimized</span>
+            </div>
+            <span class="svc-gc__more">Habla con un especialista →</span>
+          </div>
+        </a>
+
+        <!-- 06 -->
+        <a href="servicios/red-ciberseguridad.html" class="svc-gc">
+          <img src="images/services/svc-seguridad.jpg" alt="Red y Ciberseguridad" class="svc-gc__img"/>
+          <div class="svc-gc__overlay"></div>
+          <div class="svc-gc__top">
+            <h3 class="svc-gc__title">Red y<br>Ciberseguridad</h3>
+            <span class="svc-gc__count">/3 áreas</span>
+          </div>
+          <div class="svc-gc__hover">
+            <div class="svc-gc__tags">
+              <span class="svc-gc__tag">Fortinet</span>
+              <span class="svc-gc__tag">Segmentación de red</span>
+              <span class="svc-gc__tag">Auditorías</span>
+            </div>
+            <span class="svc-gc__more">Habla con un especialista →</span>
+          </div>
+        </a>
+
       </div>
+
+      <!-- Floating CTA -->
+      <div class="svc-grid__cta-row">
+        <a href="contacto.html" class="svc-grid__cta-pill">
+          Habla con un especialista
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+
     </div>
-
-    <div class="services__scroll-track" id="services-scroll-track">
-      <div class="svc-scroll-seg" data-svc="0"></div>
-      <div class="svc-scroll-seg" data-svc="1"></div>
-      <div class="svc-scroll-seg" data-svc="2"></div>
-      <div class="svc-scroll-seg" data-svc="3"></div>
-      <div class="svc-scroll-seg" data-svc="4"></div>
-      <div class="svc-scroll-seg" data-svc="5"></div>
-    </div>
-
-    <!-- Mobile-only services list -->
-    <div class="services__mobile-grid">
-      <div class="svc-mobile-card">
-        <span class="svc-mobile-num">01</span>
-        <h3>Soporte<br><span>Especializado</span></h3>
-        <p>Soporte técnico especializado con tiempos de respuesta garantizados. Equipos certificados disponibles para entornos críticos.</p>
-        <a href="servicios/soporte-especializado.html" class="svc-mobile-link">Ver más →</a>
-      </div>
-      <div class="svc-mobile-card">
-        <span class="svc-mobile-num">02</span>
-        <h3>Optimización<br><span>Estratégica</span></h3>
-        <p>Análisis profundo de tu stack actual. Reducción de costos sin comprometer rendimiento. Resultados medibles en 90 días.</p>
-        <a href="servicios/optimizacion-estrategica.html" class="svc-mobile-link">Ver más →</a>
-      </div>
-      <div class="svc-mobile-card">
-        <span class="svc-mobile-num">03</span>
-        <h3>Implementación<br><span>Avanzada</span></h3>
-        <p>Despliegue de clusters de alta disponibilidad con metodología probada. Zero-downtime. Rollback garantizado.</p>
-        <a href="servicios/implementacion-avanzada.html" class="svc-mobile-link">Ver más →</a>
-      </div>
-      <div class="svc-mobile-card">
-        <span class="svc-mobile-num">04</span>
-        <h3>Diseño<br><span>de DR</span></h3>
-        <p>Arquitecturas de Disaster Recovery diseñadas para tu RTO/RPO específico. Drills documentados. Runbooks completos.</p>
-        <a href="servicios/diseno-dr.html" class="svc-mobile-link">Ver más →</a>
-      </div>
-      <div class="svc-mobile-card">
-        <span class="svc-mobile-num">05</span>
-        <h3>Estrategia<br><span>Multi-Cloud</span></h3>
-        <p>Diseño e implementación de estrategias multi-cloud. Evita vendor lock-in. Optimiza costos entre proveedores.</p>
-        <a href="servicios/multi-cloud.html" class="svc-mobile-link">Ver más →</a>
-      </div>
-      <div class="svc-mobile-card">
-        <span class="svc-mobile-num">06</span>
-        <h3>Red y<br><span>Ciberseguridad</span></h3>
-        <p>Auditorías de seguridad, hardening Fortinet, segmentación de red. Tu perímetro, redefinido.</p>
-        <a href="servicios/red-ciberseguridad.html" class="svc-mobile-link">Ver más →</a>
-      </div>
-    </div>
-
   </section>
 
   <!-- ============================================

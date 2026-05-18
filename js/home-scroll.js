@@ -185,8 +185,11 @@ export function initScrollAnimations(qunoxScene) {
     onLeave: ()     => qunoxScene.setDistortion(0)
   });
 
-  // ── SERVICES: scrub 100% atado al scroll — sin umbrales, sin saltos ───────
+  // ── SERVICES: sticky scroll (only if legacy sticky panel exists) ───────────
   const _accentBar = document.getElementById('services-accent-bar');
+  if (!_accentBar) {
+    // New grid layout — no scroll animation needed, skip entire block
+  } else {
   const _copyEl    = document.getElementById('services-copy-text');
   const _linkEl    = document.getElementById('services-link');
   let   _svcIdx    = 0;
@@ -285,6 +288,8 @@ export function initScrollAnimations(qunoxScene) {
       }
     );
   }
+
+  } // end if (_accentBar) — legacy services sticky scroll
 
   // ── CLOSING ──────────────────────────────────
   gsap.set('.closing__actions', { y: 20 });
