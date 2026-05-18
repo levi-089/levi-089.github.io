@@ -8,105 +8,52 @@
 
 
 /* ── SCENE 2 — NOSOTROS (About)
-   Decision: off-white blue-tinted surface instead of
-   pure white. Matches --surface (#F8F9FF) to feel
-   considered, not blank. A fine square grid drawn
-   with CSS background-image (no SVG, no blob) adds
-   geometric texture without competing with type.
-   Left-border accents on the text blocks give the
-   paragraphs an editorial, structured feel.
+   Light gray surface that fades into the black diagnostic
+   section at the bottom via an ::after gradient overlay.
    ─────────────────────────────────────────────── */
 .scene--about {
-  /* Subtle blue-tinted surface — same hue family as --surface */
-  background: #F4F6FF !important;
-
-  /* Fine square grid overlay — 40 px cells, 1 px lines at 5 % opacity.
-     Uses two linear-gradient directions for a true crosshatch. */
-  background-image:
-    linear-gradient(rgba(67, 97, 238, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(67, 97, 238, 0.045) 1px, transparent 1px) !important;
-  background-size: 40px 40px !important;
+  background: #E8E8E8 !important;
+  background-image: none !important;
+  background-size: auto !important;
+  overflow: visible !important;
 }
 
-/* Top edge: thin blue rule separating hero scroll from About */
-.scene--about::before {
+/* Fade about section into the black below */
+.scene--about::after {
   content: '';
-  display: block;
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--blue, #4361EE) 30%,
-    var(--purple, #7209B7) 70%,
-    transparent 100%
-  );
-  opacity: 0.35;
-}
-
-/* Eyebrow: add a short ruled line before it (mirrors .label::before in main.css) */
-.about__eyebrow::before {
-  content: '';
-  display: inline-block;
-  width: 20px;
-  height: 1px;
-  background: var(--blue, #4361EE);
-  margin-right: 10px;
-  vertical-align: middle;
-  opacity: 0.7;
-}
-
-/* Lead paragraph: strong left border in --blue */
-.about__lead {
-  border-left: 3px solid var(--blue, #4361EE);
-  padding-left: 1.25rem;
-  margin-left: -1.25rem; /* keep text column aligned */
-}
-
-/* Body paragraphs: softer left border in --purple at low opacity */
-.about__text {
-  border-left: 2px solid rgba(114, 9, 183, 0.18);
-  padding-left: 1.25rem;
-  margin-left: -1.25rem;
-}
-
-/* Remove the border from the last paragraph so the section closes cleanly */
-.about__text:last-child {
-  border-left-color: transparent;
+  bottom: 0; left: 0; right: 0;
+  height: 220px;
+  background: linear-gradient(to bottom, transparent 0%, #0a0a0a 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 
-/* ── SCENE 3 — DIAGNOSTIC
-   Decision: keep white background but add three
-   targeted colour touches:
-   1. A faint blue-tinted header bar above the item list
-   2. Coloured ordinal numbers (the .diag-item__num)
-      — blue for warn rows, purple for error rows
-   3. A thin left-edge accent stripe on the entire
-      diagnostic container to anchor it in the grid
+/* ── SCENE 3 — DIAGNOSTIC  (dark theme)
+   Black background. White/gray text hierarchy.
+   Cohesive photo treatment via CSS filter + blue overlay.
    ─────────────────────────────────────────────── */
 .scene--diagnostic {
-  background: #fff !important;
-  /* Left-edge accent: 3 px solid blue at 60 % — structural, not decorative blob */
-  border-left: 3px solid rgba(67, 97, 238, 0.55);
+  background: #0a0a0a !important;
+  border-left: none;
 }
 
-/* Diagnostic header bar: very faint surface tint + bottom rule */
+/* Header bar: very faint white tint on dark bg */
 .diagnostic__header {
-  background: rgba(67, 97, 238, 0.035);
+  background: rgba(255, 255, 255, 0.03) !important;
   padding: 0.75rem 1rem !important;
   margin-left: -1rem;
   margin-right: -1rem;
-  border-bottom: 1px solid rgba(67, 97, 238, 0.10) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
   border-radius: 2px 2px 0 0;
 }
 
-/* Section label gets a small dot prefix for brand consistency */
+/* Section label: pulsing dot on dark */
 .diagnostic__label::before {
   content: '●';
   font-size: 0.5em;
-  color: var(--blue, #4361EE);
+  color: rgba(100, 130, 255, 0.8);
   margin-right: 6px;
   vertical-align: middle;
   animation: diagnosticPulse 2.4s ease-in-out infinite;
@@ -114,38 +61,35 @@
 
 @keyframes diagnosticPulse {
   0%, 100% { opacity: 1; }
-  50%       { opacity: 0.35; }
+  50%       { opacity: 0.3; }
 }
 
-/* Ordinal numbers: blue for WARN items, purple for ERR items
-   Siblings: .diag-item contains both .diag-item__num and .diag-item__status */
+/* Ordinal numbers: subtle accent colors on dark */
 .diag-item:has(.diag-item__status--warn) .diag-item__num {
-  color: var(--blue, #4361EE);
-  font-weight: 700;
+  color: rgba(100, 130, 255, 0.75) !important;
+  font-weight: 600;
 }
-
 .diag-item:has(.diag-item__status--err) .diag-item__num {
-  color: var(--purple, #7209B7);
-  font-weight: 700;
+  color: rgba(180, 100, 255, 0.75) !important;
+  font-weight: 600;
 }
 
-/* Status chips: add a 1 px left colored border to reinforce state */
+/* Status chips: left border accent on dark bg */
 .diag-item__status--warn {
-  border-left: 2px solid var(--blue, #4361EE);
+  border-left: 2px solid rgba(100, 130, 255, 0.6) !important;
 }
-
 .diag-item__status--err {
-  border-left: 2px solid var(--purple, #7209B7);
+  border-left: 2px solid rgba(180, 100, 255, 0.6) !important;
 }
 
-/* Visual frame: add a thin blue top stroke to the image panel */
+/* Visual frame: subtle blue-purple top stroke */
 .diagnostic__visual-frame {
-  border-top: 2px solid rgba(67, 97, 238, 0.5) !important;
+  border-top: 1px solid rgba(100, 130, 255, 0.3) !important;
 }
 
-/* Progress bar track: tint to blue family */
+/* Progress bar track: white-tinted on dark */
 .diagnostic__progress-bar {
-  background: rgba(67, 97, 238, 0.08) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
 }
 
 
