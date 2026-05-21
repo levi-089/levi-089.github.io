@@ -740,9 +740,9 @@ body.ready .page-wrap { opacity: 1; }
    ACERCA DE NOSOTROS
    ================================================ */
 .scene--about {
-  min-height: 100vh;
+  min-height: auto;
   background: linear-gradient(to bottom, #E8E8E8 0%, #E8E8E8 60%, #0a0a0a 100%);
-  padding: 9rem 4rem 0;
+  padding: 7rem 4rem 0;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -809,9 +809,9 @@ body.ready .page-wrap { opacity: 1; }
 .about__icon svg {
   width: 100%;
   height: auto;
-  max-height: 38vh;   /* tall icons that partially disappear into the fade */
+  max-height: 22vh;
   display: block;
-  color: rgba(0,0,0,0.16);
+  color: rgba(0,0,0,0.18);
   fill: currentColor;
 }
 
