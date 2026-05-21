@@ -85,11 +85,8 @@
 
 
 /* ── SCENE 4 — SERVICES GRID
-   New grid layout — no sticky scroll overrides needed.
+   New grid layout — no overrides needed.
    ─────────────────────────────────────────────── */
-.scene--services {
-  background-size: auto !important;
-}
 
 
 /* ── SCENE 5 — CLOSING CTA
