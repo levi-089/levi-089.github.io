@@ -317,58 +317,61 @@ export function initScrollAnimations(qunoxScene) {
   });
 
   // ── SANGFOR: pin section, inner-scroll right panel ─────────
-  const sangforSection = document.querySelector('#scene-sangfor');
-  if (sangforSection && window.innerWidth > 860) {
-    const rightInner = sangforSection.querySelector('.sangfor__right-inner');
-    const sfCards    = gsap.utils.toArray('#scene-sangfor .sangfor__card');
-    const n = sfCards.length; // 5 (4 service cards + 1 impact)
+  try {
+    const sangforSection = document.querySelector('#scene-sangfor');
+    if (sangforSection && window.innerWidth > 860) {
+      const rightInner = sangforSection.querySelector('.sangfor__right-inner');
+      const sfCards    = gsap.utils.toArray('#scene-sangfor .sangfor__card');
+      const n = sfCards.length;
 
-    if (rightInner && n > 1) {
-      // Initial state: title + desc of cards 2-5 start invisible
-      sfCards.slice(1).forEach(card => {
-        gsap.set([card.querySelector('.sangfor__card-title'),
-                  card.querySelector('.sangfor__card-desc')], { opacity: 0, y: 28 });
-      });
+      if (rightInner && n > 1) {
+        // Initial state: set title+desc of cards 2-N invisible (skip nulls)
+        sfCards.slice(1).forEach(card => {
+          const els = [
+            card.querySelector('.sangfor__card-title'),
+            card.querySelector('.sangfor__card-desc'),
+          ].filter(Boolean);
+          if (els.length) gsap.set(els, { opacity: 0, y: 28 });
+        });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sangforSection,
-          start: 'top top',
-          // One extra viewport of scroll per card after the first
-          end: () => `+=${(n - 1) * window.innerHeight}`,
-          scrub: 0.7,
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-        }
-      });
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sangforSection,
+            start: 'top top',
+            end: () => `+=${(n - 1) * window.innerHeight}`,
+            scrub: 0.7,
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+          }
+        });
 
-      // Step i: slide inner up by one card, then fade-in that card's text
-      for (let i = 1; i < n; i++) {
-        const card = sfCards[i];
-        const textEls = [
-          card.querySelector('.sangfor__card-title'),
-          card.querySelector('.sangfor__card-desc'),
-        ].filter(Boolean);
+        for (let i = 1; i < n; i++) {
+          const card = sfCards[i];
+          const textEls = [
+            card.querySelector('.sangfor__card-title'),
+            card.querySelector('.sangfor__card-desc'),
+          ].filter(Boolean);
 
-        // 1. Slide panel up to card i (duration 0.6 in timeline units)
-        tl.to(rightInner, {
-          y: -i * window.innerHeight,
-          duration: 0.6,
-          ease: 'power1.inOut',
-        }, (i - 1));
+          tl.to(rightInner, {
+            y: -i * window.innerHeight,
+            duration: 0.6,
+            ease: 'power1.inOut',
+          }, (i - 1));
 
-        // 2. Fade in card text as it settles into view (short burst)
-        if (textEls.length) {
-          tl.to(textEls, {
-            opacity: 1, y: 0,
-            duration: 0.25,
-            ease: 'power2.out',
-            stagger: 0.05,
-          }, (i - 1) + 0.65);
+          if (textEls.length) {
+            tl.to(textEls, {
+              opacity: 1, y: 0,
+              duration: 0.25,
+              ease: 'power2.out',
+              stagger: 0.05,
+            }, (i - 1) + 0.65);
+          }
         }
       }
     }
+  } catch (err) {
+    console.warn('[QUNOX] Sangfor scroll init failed:', err);
   }
 
   // Refresh after fonts
