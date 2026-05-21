@@ -1030,7 +1030,7 @@ body.ready .page-wrap { opacity: 1; }
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #3A322C;
+  color: #C8B49A;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -1040,7 +1040,7 @@ body.ready .page-wrap { opacity: 1; }
   content: '';
   display: inline-block;
   width: 22px; height: 1px;
-  background: #3A322C;
+  background: #C8B49A;
 }
 
 .sangfor__headline {
