@@ -987,11 +987,18 @@ body.ready .page-wrap { opacity: 1; }
   100% { transform: scale(1.06) translate(0%,    0%);    }
 }
 
-/* Minimal overlay — just enough to keep white text legible */
+/* Dark gradient overlay for text legibility */
 .sangfor__bg-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 10, 14, 0.28);
+  background:
+    /* Stronger dark base */
+    linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.55) 50%,
+      rgba(0, 0, 0, 0.65) 100%
+    );
   pointer-events: none;
   z-index: 1;
 }
