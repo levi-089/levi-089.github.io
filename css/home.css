@@ -946,12 +946,14 @@ body.ready .page-wrap { opacity: 1; }
 
 /* ================================================
    SCENE — SANGFOR / TECNOLOGÍA NUEVA GENERACIÓN
-   Sticky-left / scrolling-right layout.
-   Dark theme continuing from the diagnostic section.
+   GSAP-pinned section: left stays static, right
+   inner-scrolls via translateY driven by ScrollTrigger.
    ================================================ */
 .scene--sangfor {
   background: #080808;
   position: relative;
+  /* height set to 100vh — GSAP pinSpacing handles the scroll space */
+  height: 100vh;
   overflow: hidden;
   padding: 0;
 }
@@ -961,9 +963,9 @@ body.ready .page-wrap { opacity: 1; }
   position: absolute;
   inset: -30%;
   background:
-    radial-gradient(ellipse 65% 55% at 15% 35%, rgba(67, 97, 238, 0.13) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 70% at 85% 65%, rgba(114, 9, 183, 0.09) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 50% 10%, rgba(100, 130, 255, 0.06) 0%, transparent 55%);
+    radial-gradient(ellipse 65% 55% at 15% 35%, rgba(67, 97, 238, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 85% 65%, rgba(114, 9, 183, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 10%, rgba(100, 130, 255, 0.07) 0%, transparent 55%);
   animation: sangforGlow 10s ease-in-out infinite alternate;
   pointer-events: none;
   z-index: 0;
@@ -973,27 +975,25 @@ body.ready .page-wrap { opacity: 1; }
   to   { transform: scale(1.08) translate(4%, 3%); }
 }
 
-/* ── Inner grid: left sticky / right scroll ── */
+/* ── Inner grid: left + right, full viewport height ── */
 .sangfor__inner {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: start;
-  max-width: 1300px;
+  grid-template-columns: 45% 55%;
+  height: 100vh;
+  max-width: 1380px;
   margin: 0 auto;
-  padding: 0 2.5rem;
+  padding: 0 4rem 0 3rem;
 }
 
-/* ── LEFT — sticky title block ── */
+/* ── LEFT — static (section is pinned, so this just sits here) ── */
 .sangfor__left {
-  position: sticky;
-  top: 0;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 4rem 0 1rem;
+  padding: 0 4rem 0 0;
+  height: 100vh;
 }
 
 .sangfor__eyebrow {
@@ -1017,10 +1017,10 @@ body.ready .page-wrap { opacity: 1; }
 
 .sangfor__headline {
   font-family: var(--font-head, 'Space Grotesk', sans-serif);
-  font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+  font-size: clamp(1.7rem, 2.5vw, 2.8rem);
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
   color: #ffffff;
   margin-bottom: 1.5rem;
 }
@@ -1028,159 +1028,136 @@ body.ready .page-wrap { opacity: 1; }
 .sangfor__body {
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: clamp(0.85rem, 1vw, 0.95rem);
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.42);
-  max-width: 420px;
-  margin-bottom: 2.5rem;
+  line-height: 1.78;
+  color: rgba(255, 255, 255, 0.40);
+  max-width: 400px;
+  margin: 0;
 }
 
-/* Sangfor badge */
-.sangfor__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.04);
-  width: fit-content;
-}
-.sangfor__badge-logo {
-  height: 20px;
-  width: auto;
-  filter: brightness(0) invert(1);
-  opacity: 0.7;
-}
-.sangfor__badge span {
-  font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-/* ── RIGHT — scrolling cards ── */
+/* ── RIGHT — clipping container ── */
 .sangfor__right {
   position: relative;
-  z-index: 1;
+  height: 100vh;
+  overflow: hidden;
+  /* vertical separator */
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Inner track — GSAP will translateY this element */
+.sangfor__right-inner {
   display: flex;
   flex-direction: column;
-  padding: 10vh 0 12vh 0;
+  will-change: transform;
 }
 
+/* ── Cards: each = 100vh ── */
 .sangfor__card {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 3.5rem 1rem 3.5rem 2rem;
-  position: relative;
-  transition: border-color 0.3s ease;
-}
-.sangfor__card:hover {
-  border-top-color: rgba(100, 130, 255, 0.35);
-}
-
-.sangfor__card-header {
+  height: 100vh;
+  flex-shrink: 0;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 3rem 0 3.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.sangfor__card-title {
-  font-family: var(--font-head, 'Space Grotesk', sans-serif);
-  font-size: clamp(1.15rem, 1.8vw, 1.6rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  line-height: 1.2;
-  margin: 0;
+/* Number badge row at top of each card */
+.sangfor__card-top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
 }
 
 .sangfor__card-num {
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.65rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: rgba(100, 130, 255, 0.9);
-  background: rgba(100, 130, 255, 0.12);
-  border: 1px solid rgba(100, 130, 255, 0.25);
+  background: rgba(100, 130, 255, 0.10);
+  border: 1px solid rgba(100, 130, 255, 0.22);
   border-radius: 3px;
-  padding: 0.25rem 0.55rem;
-  flex-shrink: 0;
-  margin-top: 0.2rem;
+  padding: 0.3rem 0.65rem;
+}
+
+.sangfor__card-title {
+  font-family: var(--font-head, 'Space Grotesk', sans-serif);
+  font-size: clamp(1.5rem, 2.2vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0 0 1.25rem;
 }
 
 .sangfor__card-desc {
   font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: clamp(0.85rem, 1vw, 0.95rem);
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.45);
-  max-width: 480px;
+  font-size: clamp(0.88rem, 1.1vw, 1rem);
+  line-height: 1.78;
+  color: rgba(255, 255, 255, 0.48);
+  max-width: 500px;
   margin: 0;
 }
 
-/* ── Impact phrase ── */
-.sangfor__impact {
-  position: relative;
-  z-index: 1;
+/* Impact card (last card, 5th) */
+.sangfor__card--impact {
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 4rem 2rem 5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  margin: 0 2.5rem;
+  border-bottom: none;
 }
 
 .sangfor__impact-text {
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: clamp(0.8rem, 1.1vw, 1rem);
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.28);
   margin: 0;
   background: linear-gradient(
     90deg,
-    rgba(100, 130, 255, 0.85) 0%,
-    rgba(255, 255, 255, 0.85) 40%,
-    rgba(180, 100, 255, 0.85) 100%
+    rgba(100, 130, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.9) 45%,
+    rgba(180, 100, 255, 0.9) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Transition into services: fade bottom edge to warm gray */
-.scene--sangfor::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 120px;
-  background: linear-gradient(to bottom, transparent, #EAEAE4);
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* ── Mobile ── */
+/* ── Mobile: disable pin, stack normally ── */
 @media (max-width: 860px) {
+  .scene--sangfor {
+    height: auto;
+    overflow: visible;
+  }
   .sangfor__inner {
     grid-template-columns: 1fr;
+    height: auto;
     padding: 0 1.5rem;
   }
   .sangfor__left {
-    position: relative;
     height: auto;
-    padding: 5rem 0 2rem;
+    padding: 5rem 0 2.5rem;
   }
   .sangfor__right {
-    padding: 2rem 0 6rem;
+    height: auto;
+    overflow: visible;
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .sangfor__right-inner {
+    transform: none !important; /* override GSAP on mobile */
   }
   .sangfor__card {
-    padding: 2.5rem 0;
+    height: auto;
+    padding: 3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    opacity: 1 !important; /* reset GSAP initial state */
   }
-  .sangfor__impact {
-    margin: 0 0;
-    padding: 3rem 0 4rem;
-  }
+  .sangfor__card-title,
+  .sangfor__card-desc { opacity: 1 !important; transform: none !important; }
+  .sangfor__card--impact { text-align: left; padding-bottom: 4rem; }
 }
 
 /* ================================================

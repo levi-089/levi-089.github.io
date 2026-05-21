@@ -255,6 +255,7 @@
 
   <!-- ============================================
        SCENE — SANGFOR / TECNOLOGÍA NUEVA GENERACIÓN
+       Pin + scroll-right effect via GSAP ScrollTrigger
   ============================================ -->
   <section id="scene-sangfor" class="scene scene--sangfor">
 
@@ -263,60 +264,58 @@
 
     <div class="sangfor__inner">
 
-      <!-- LEFT — sticky title block -->
+      <!-- LEFT — stays static while right scrolls -->
       <div class="sangfor__left">
         <span class="sangfor__eyebrow">Partner Tecnológico · Sangfor</span>
         <h2 class="sangfor__headline">Infraestructura moderna impulsada por tecnologías de nueva generación</h2>
         <p class="sangfor__body">Como distribuidores e integradores de soluciones Sangfor en Ecuador, impulsamos arquitecturas modernas enfocadas en rendimiento, continuidad operativa y protección avanzada de la infraestructura tecnológica.</p>
-        <div class="sangfor__badge">
-          <img src="images/partners/sangfor.svg" alt="Sangfor" class="sangfor__badge-logo"/>
-          <span>Distribuidor oficial</span>
-        </div>
       </div>
 
-      <!-- RIGHT — scrolling cards -->
+      <!-- RIGHT — GSAP-scrolled panel (overflow:hidden, inner translates up) -->
       <div class="sangfor__right">
+        <div class="sangfor__right-inner">
 
-        <div class="sangfor__card reveal">
-          <div class="sangfor__card-header">
+          <div class="sangfor__card">
+            <div class="sangfor__card-top">
+              <span class="sangfor__card-num">01</span>
+            </div>
             <h3 class="sangfor__card-title">Ciberseguridad y NGFW</h3>
-            <span class="sangfor__card-num">01</span>
+            <p class="sangfor__card-desc">Protección avanzada de tráfico, control de accesos y seguridad inteligente para entornos empresariales modernos.</p>
           </div>
-          <p class="sangfor__card-desc">Protección avanzada de tráfico, control de accesos y seguridad inteligente para entornos empresariales modernos.</p>
-        </div>
 
-        <div class="sangfor__card reveal">
-          <div class="sangfor__card-header">
+          <div class="sangfor__card">
+            <div class="sangfor__card-top">
+              <span class="sangfor__card-num">02</span>
+            </div>
             <h3 class="sangfor__card-title">Infraestructura Hiperconvergente</h3>
-            <span class="sangfor__card-num">02</span>
+            <p class="sangfor__card-desc">Plataformas escalables y simplificadas que integran cómputo, almacenamiento y virtualización.</p>
           </div>
-          <p class="sangfor__card-desc">Plataformas escalables y simplificadas que integran cómputo, almacenamiento y virtualización.</p>
-        </div>
 
-        <div class="sangfor__card reveal">
-          <div class="sangfor__card-header">
+          <div class="sangfor__card">
+            <div class="sangfor__card-top">
+              <span class="sangfor__card-num">03</span>
+            </div>
             <h3 class="sangfor__card-title">SD-WAN y Conectividad Segura</h3>
-            <span class="sangfor__card-num">03</span>
+            <p class="sangfor__card-desc">Conectividad optimizada entre sedes, usuarios y nube con mayor visibilidad y control.</p>
           </div>
-          <p class="sangfor__card-desc">Conectividad optimizada entre sedes, usuarios y nube con mayor visibilidad y control.</p>
-        </div>
 
-        <div class="sangfor__card reveal">
-          <div class="sangfor__card-header">
+          <div class="sangfor__card">
+            <div class="sangfor__card-top">
+              <span class="sangfor__card-num">04</span>
+            </div>
             <h3 class="sangfor__card-title">Continuidad y Resiliencia</h3>
-            <span class="sangfor__card-num">04</span>
+            <p class="sangfor__card-desc">Arquitecturas diseñadas para garantizar disponibilidad, recuperación y estabilidad operacional.</p>
           </div>
-          <p class="sangfor__card-desc">Arquitecturas diseñadas para garantizar disponibilidad, recuperación y estabilidad operacional.</p>
-        </div>
 
+          <!-- Final card: impact phrase -->
+          <div class="sangfor__card sangfor__card--impact">
+            <p class="sangfor__impact-text">QUNOX &nbsp;|&nbsp; Partner tecnológico especializado en soluciones Sangfor para infraestructura moderna y ciberseguridad.</p>
+          </div>
+
+        </div><!-- /sangfor__right-inner -->
       </div><!-- /sangfor__right -->
 
     </div><!-- /sangfor__inner -->
-
-    <!-- Impact phrase -->
-    <div class="sangfor__impact reveal">
-      <p class="sangfor__impact-text">QUNOX &nbsp;|&nbsp; Partner tecnológico especializado en soluciones Sangfor para infraestructura moderna y ciberseguridad.</p>
-    </div>
 
   </section>
 
@@ -648,7 +647,7 @@
 <!-- Home cinematic JS — ES module -->
 <script type="module">
   import { QunoxScene }                                    from './js/home-scene.js?v=4';
-  import { initScrollAnimations, initDiagnosticInteractions } from './js/home-scroll.js?v=4';
+  import { initScrollAnimations, initDiagnosticInteractions } from './js/home-scroll.js?v=5';
 
   window.addEventListener('load', () => {
     const scene = new QunoxScene('qnx-canvas');
