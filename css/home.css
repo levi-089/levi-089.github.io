@@ -740,10 +740,12 @@ body.ready .page-wrap { opacity: 1; }
    ACERCA DE NOSOTROS
    ================================================ */
 .scene--about {
-  /* Fades smoothly into the black diagnostic section */
-  background: linear-gradient(to bottom, #E8E8E8 0%, #E8E8E8 68%, #0a0a0a 100%);
-  padding: 7rem 4rem 11rem;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #E8E8E8 0%, #E8E8E8 60%, #0a0a0a 100%);
+  padding: 9rem 4rem 0;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .about__container {
@@ -751,6 +753,11 @@ body.ready .page-wrap { opacity: 1; }
   margin: 0 auto;
   position: relative;
   z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 0;
 }
 
 /* ── Header: eyebrow left, headline right ── */
@@ -759,7 +766,7 @@ body.ready .page-wrap { opacity: 1; }
   grid-template-columns: 220px 1fr;
   gap: 3rem;
   align-items: start;
-  margin-bottom: 5rem;
+  margin-bottom: 4rem;
 }
 
 .about__eyebrow {
@@ -782,16 +789,16 @@ body.ready .page-wrap { opacity: 1; }
 }
 
 .about__hl-dark { color: #111111; }
-
 .about__hl-gray { color: rgba(17,17,17,0.3); }
 
-/* ── Icons row ── */
+/* ── Icons row — sits at the bottom, partial fade into black ── */
 .about__icons {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 1rem;
-  overflow: hidden;
+  gap: 0.75rem;
+  overflow: visible;
+  margin-top: auto;
 }
 
 .about__icon {
@@ -802,8 +809,9 @@ body.ready .page-wrap { opacity: 1; }
 .about__icon svg {
   width: 100%;
   height: auto;
+  max-height: 38vh;   /* tall icons that partially disappear into the fade */
   display: block;
-  color: rgba(0,0,0,0.14);
+  color: rgba(0,0,0,0.16);
   fill: currentColor;
 }
 
@@ -812,10 +820,19 @@ body.ready .page-wrap { opacity: 1; }
   .about__header {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-    margin-bottom: 3.5rem;
+    margin-bottom: 3rem;
   }
   .about__eyebrow { padding-top: 0; }
   .about__icons { gap: 0.5rem; }
+  .about__icon svg { max-height: 28vh; }
+}
+
+@media (max-width: 768px) {
+  .scene--about { padding: 6rem 1.5rem 0; }
+  .about__headline { font-size: clamp(1.6rem, 6vw, 2.8rem); }
+  .about__icons { flex-wrap: wrap; }
+  .about__icon { flex: 0 0 calc(33.33% - 0.5rem); }
+  .about__icon svg { max-height: 22vw; }
 }
 
 @media (max-width: 768px) {
