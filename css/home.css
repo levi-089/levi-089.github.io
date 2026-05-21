@@ -958,27 +958,52 @@ body.ready .page-wrap { opacity: 1; }
   padding: 0;
 }
 
-/* ── Animated background glow ── */
+/* ── Animated background image ── */
 .sangfor__bg {
   position: absolute;
-  inset: -30%;
-  background:
-    radial-gradient(ellipse 65% 55% at 15% 35%, rgba(67, 97, 238, 0.14) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 70% at 85% 65%, rgba(114, 9, 183, 0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 50% 10%, rgba(100, 130, 255, 0.07) 0%, transparent 55%);
-  animation: sangforGlow 10s ease-in-out infinite alternate;
+  /* Slightly larger than the section so drift never shows edges */
+  inset: -8%;
   pointer-events: none;
   z-index: 0;
+  overflow: hidden;
 }
-@keyframes sangforGlow {
-  from { transform: scale(1) translate(0%, 0%); }
-  to   { transform: scale(1.08) translate(4%, 3%); }
+
+.sangfor__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Slow pan + very gentle scale "breathe" */
+  animation: sangforDrift 28s ease-in-out infinite alternate;
+  will-change: transform;
+  display: block;
+}
+
+@keyframes sangforDrift {
+  0%   { transform: scale(1.06) translate(0%,    0%);    }
+  25%  { transform: scale(1.09) translate(-1.8%, 0.6%);  }
+  50%  { transform: scale(1.11) translate(-2.5%, -0.8%); }
+  75%  { transform: scale(1.08) translate(-0.8%, -1.4%); }
+  100% { transform: scale(1.06) translate(0%,    0%);    }
+}
+
+/* Dark overlay: keeps text readable, adds brand blue tint */
+.sangfor__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    /* Brand blue tint layer */
+    radial-gradient(ellipse 70% 60% at 20% 50%, rgba(20, 30, 80, 0.45) 0%, transparent 65%),
+    /* Uniform dark base so the image reads as "dark section" */
+    rgba(8, 8, 14, 0.62);
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* ── Inner grid: left + right, full viewport height ── */
 .sangfor__inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;  /* above bg (z:0) and overlay (z:1) */
   display: grid;
   grid-template-columns: 45% 55%;
   height: 100vh;
