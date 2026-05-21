@@ -926,18 +926,18 @@ body.ready .page-wrap { opacity: 1; }
   font-weight: 700;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: rgba(13,13,26,0.22);
-  padding: 0.4rem 2.8rem;
+  color: rgba(13,13,26,0.55);
+  padding: 0.4rem 2.4rem;
   flex-shrink: 0;
   transition: color 0.25s ease;
 }
-.clients__ticker-item:hover { color: rgba(13,13,26,0.65); }
+.clients__ticker-item:hover { color: rgba(13,13,26,0.85); }
 
 .clients__ticker-sep {
   font-size: 0.55rem;
-  color: rgba(67,97,238,0.3);
+  color: rgba(67,97,238,0.45);
   flex-shrink: 0;
-  padding: 0 0.5rem;
+  padding: 0 0.4rem;
   user-select: none;
 }
 
