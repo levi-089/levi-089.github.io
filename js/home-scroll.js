@@ -316,7 +316,9 @@ export function initScrollAnimations(qunoxScene) {
     onEnter: () => qunoxScene.setClosingMode()
   });
 
-  // ── SANGFOR: pin section, inner-scroll right panel ─────────
+  // ── SANGFOR: pin section, smooth continuous right-panel scroll ──
+  // Each card = 32vh; ~3 cards visible at once.
+  // Right inner translates upward smoothly as user scrolls.
   try {
     const sangforSection = document.querySelector('#scene-sangfor');
     if (sangforSection && window.innerWidth > 860) {
@@ -324,49 +326,26 @@ export function initScrollAnimations(qunoxScene) {
       const sfCards    = gsap.utils.toArray('#scene-sangfor .sangfor__card');
       const n = sfCards.length;
 
-      if (rightInner && n > 1) {
-        // Initial state: set title+desc of cards 2-N invisible (skip nulls)
-        sfCards.slice(1).forEach(card => {
-          const els = [
-            card.querySelector('.sangfor__card-title'),
-            card.querySelector('.sangfor__card-desc'),
-          ].filter(Boolean);
-          if (els.length) gsap.set(els, { opacity: 0, y: 28 });
-        });
+      if (rightInner && n > 0) {
+        // Each card is 32vh; total inner height = n * 32vh
+        const cardH     = window.innerHeight * 0.32;
+        const totalH    = n * cardH;
+        const maxTravel = Math.max(0, totalH - window.innerHeight);
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: sangforSection,
-            start: 'top top',
-            end: () => `+=${(n - 1) * window.innerHeight}`,
-            scrub: 0.7,
-            pin: true,
-            pinSpacing: true,
-            anticipatePin: 1,
-          }
-        });
-
-        for (let i = 1; i < n; i++) {
-          const card = sfCards[i];
-          const textEls = [
-            card.querySelector('.sangfor__card-title'),
-            card.querySelector('.sangfor__card-desc'),
-          ].filter(Boolean);
-
-          tl.to(rightInner, {
-            y: -i * window.innerHeight,
-            duration: 0.6,
-            ease: 'power1.inOut',
-          }, (i - 1));
-
-          if (textEls.length) {
-            tl.to(textEls, {
-              opacity: 1, y: 0,
-              duration: 0.25,
-              ease: 'power2.out',
-              stagger: 0.05,
-            }, (i - 1) + 0.65);
-          }
+        if (maxTravel > 0) {
+          gsap.to(rightInner, {
+            y: -maxTravel,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sangforSection,
+              start: 'top top',
+              end: `+=${maxTravel}`,
+              scrub: 0.55,
+              pin: true,
+              pinSpacing: true,
+              anticipatePin: 1,
+            }
+          });
         }
       }
     }

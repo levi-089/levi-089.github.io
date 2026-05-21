@@ -987,15 +987,11 @@ body.ready .page-wrap { opacity: 1; }
   100% { transform: scale(1.06) translate(0%,    0%);    }
 }
 
-/* Dark overlay: keeps text readable, adds brand blue tint */
+/* Minimal overlay — just enough to keep white text legible */
 .sangfor__bg-overlay {
   position: absolute;
   inset: 0;
-  background:
-    /* Brand blue tint layer */
-    radial-gradient(ellipse 70% 60% at 20% 50%, rgba(20, 30, 80, 0.45) 0%, transparent 65%),
-    /* Uniform dark base so the image reads as "dark section" */
-    rgba(8, 8, 14, 0.62);
+  background: rgba(10, 10, 14, 0.28);
   pointer-events: none;
   z-index: 1;
 }
@@ -1024,10 +1020,10 @@ body.ready .page-wrap { opacity: 1; }
 .sangfor__eyebrow {
   font-family: var(--font-body, 'Inter', sans-serif);
   font-size: 0.72rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(100, 130, 255, 0.75);
+  color: #3A322C;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -1037,7 +1033,7 @@ body.ready .page-wrap { opacity: 1; }
   content: '';
   display: inline-block;
   width: 22px; height: 1px;
-  background: rgba(100, 130, 255, 0.6);
+  background: #3A322C;
 }
 
 .sangfor__headline {
@@ -1075,9 +1071,9 @@ body.ready .page-wrap { opacity: 1; }
   will-change: transform;
 }
 
-/* ── Cards: each = 100vh ── */
+/* ── Cards: ~3 visible at once ── */
 .sangfor__card {
-  height: 100vh;
+  height: 32vh;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -1098,9 +1094,9 @@ body.ready .page-wrap { opacity: 1; }
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.12em;
-  color: rgba(100, 130, 255, 0.9);
-  background: rgba(100, 130, 255, 0.10);
-  border: 1px solid rgba(100, 130, 255, 0.22);
+  color: #3A322C;
+  background: rgba(58, 50, 44, 0.12);
+  border: 1px solid rgba(58, 50, 44, 0.35);
   border-radius: 3px;
   padding: 0.3rem 0.65rem;
 }
