@@ -104,11 +104,11 @@ body.ready .page-wrap { opacity: 1; }
 
 .hero__sub {
   font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: clamp(0.9rem, 1.3vw, 1.1rem);
-  font-weight: 400;
-  color: #6B6B7B;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: clamp(0.72rem, 1vw, 0.88rem);
+  font-weight: 700;
+  color: #4B4B5A;
+  letter-spacing: 0.06em;
+  text-transform: none;
   opacity: 0;
   transform: translateY(16px);
   will-change: opacity, transform;
