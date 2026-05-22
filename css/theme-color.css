@@ -55,27 +55,27 @@
   50%       { opacity: 0.3; }
 }
 
-/* Ordinal numbers: subtle accent colors on dark */
+/* Ordinal numbers: dark accents on light bg */
 .diag-item:has(.diag-item__status--warn) .diag-item__num {
-  color: rgba(216, 206, 195, 0.75) !important;
+  color: rgba(58, 50, 44, 0.65) !important;
   font-weight: 600;
 }
 .diag-item:has(.diag-item__status--err) .diag-item__num {
-  color: rgba(124, 124, 124, 0.75) !important;
+  color: rgba(26, 26, 26, 0.65) !important;
   font-weight: 600;
 }
 
-/* Status chips: left border accent on dark bg */
+/* Status chips: left border accent on light bg */
 .diag-item__status--warn {
-  border-left: 2px solid rgba(216, 206, 195, 0.6) !important;
+  border-left: 2px solid rgba(58, 50, 44, 0.45) !important;
 }
 .diag-item__status--err {
-  border-left: 2px solid rgba(124, 124, 124, 0.6) !important;
+  border-left: 2px solid rgba(26, 26, 26, 0.5) !important;
 }
 
-/* Visual frame: subtle warm top stroke */
+/* Visual frame: subtle dark top stroke */
 .diagnostic__visual-frame {
-  border-top: 1px solid rgba(216, 206, 195, 0.3) !important;
+  border-top: 1px solid rgba(58, 50, 44, 0.25) !important;
 }
 
 /* Progress bar track: white-tinted on dark */
