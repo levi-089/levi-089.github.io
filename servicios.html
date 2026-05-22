@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/main.css"/>
   <link rel="stylesheet" href="css/servicios-page.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
@@ -193,17 +194,39 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
-    /* Pin el video hero por 200vh → el scroll se siente lento mientras el video está visible */
+    /* ── SMOOTH SCROLL con Lenis ─────────────────
+       lerp: 0.07  → interpolación muy suave (0=parado, 1=instantáneo)
+       wheelMultiplier: 0.75 → reduce la distancia por tick de rueda
+       ------------------------------------------ */
+    if (typeof Lenis !== 'undefined') {
+      const lenis = new Lenis({
+        lerp: 0.07,
+        wheelMultiplier: 0.75,
+        touchMultiplier: 1.2,
+        smoothWheel: true,
+      });
+
+      /* Conectar Lenis con el ticker de GSAP para que
+         ScrollTrigger use las mismas posiciones de scroll */
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    /* ── PIN del video hero ──────────────────────
+       pinSpacing:false → las tarjetas siguen en el DOM
+       justo bajo el hero; suben sobre él al hacer scroll */
     ScrollTrigger.create({
       trigger: '#svc-video-hero',
       start: 'top top',
       end: '+=150%',
       pin: true,
-      pinSpacing: false, /* sin espaciador → tarjetas aparecen justo debajo */
+      pinSpacing: false,
       anticipatePin: 1,
     });
 
-    /* Fade out suave del scroll hint al comenzar a bajar */
+    /* Fade out suave del scroll hint */
     gsap.to('.svc-video-hero__scroll', {
       opacity: 0,
       y: -10,

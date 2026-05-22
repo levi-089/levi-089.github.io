@@ -133,12 +133,12 @@
 .svc-card__overlay { display: none; }
 
 /* ── Fondos semitransparentes: la imagen se ve a través ── */
-.svc-card:nth-child(1) { background: rgba(10,  10,  10,  0.80); } /* Soporte        */
-.svc-card:nth-child(2) { background: rgba(55,  55,  55,  0.60); } /* Optimización   */
-.svc-card:nth-child(3) { background: rgba(15,  15,  15,  0.80); } /* Implementación */
-.svc-card:nth-child(4) { background: rgba(48,  48,  48,  0.60); } /* DR             */
-.svc-card:nth-child(5) { background: rgba( 8,   8,   8,  0.80); } /* Multi-Cloud    */
-.svc-card:nth-child(6) { background: rgba(50,  50,  50,  0.60); } /* Ciberseguridad */
+.svc-card:nth-child(1) { background: rgba(12,  28,  85,  0.82); } /* Soporte        → azul oscuro */
+.svc-card:nth-child(2) { background: rgba(55,  55,  55,  0.60); } /* Optimización   → gris medio  */
+.svc-card:nth-child(3) { background: rgba(10,  24,  78,  0.82); } /* Implementación → azul oscuro */
+.svc-card:nth-child(4) { background: rgba(48,  48,  48,  0.60); } /* DR             → gris medio  */
+.svc-card:nth-child(5) { background: rgba( 8,  20,  70,  0.82); } /* Multi-Cloud    → azul oscuro */
+.svc-card:nth-child(6) { background: rgba(50,  50,  50,  0.60); } /* Ciberseguridad → gris medio  */
 
 /* Hover: aligera la capa para revelar más imagen */
 .svc-card:hover { filter: brightness(1.12); }
