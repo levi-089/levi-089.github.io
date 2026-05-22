@@ -150,7 +150,7 @@
   grid-template-rows: repeat(2, 1fr);
   height: calc(100vh - 90px);
   gap: 2px;
-  background: rgba(0, 0, 0, 0.55); /* separador oscuro entre cards */
+  background: #0a0a0a; /* separador sólido sin tinte de la imagen */
   position: relative;
   z-index: 1; /* sobre el ::before del wrapper */
 }
@@ -163,6 +163,15 @@
   text-decoration: none;
   cursor: pointer;
   transition: filter 0.35s ease;
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+.svc-card:focus,
+.svc-card:focus-visible,
+.svc-card:active {
+  outline: none;
+  box-shadow: none;
 }
 
 /* Ocultar imágenes originales — fondo viene del wrapper */
@@ -170,11 +179,11 @@
 .svc-card__overlay { display: none; }
 
 /* ── Fondos semitransparentes: la imagen se ve a través ── */
-.svc-card:nth-child(1) { background: rgba(58, 50, 44, 0.84); } /* Soporte        → #3A322C */
+.svc-card:nth-child(1) { background: rgba(58, 50, 44, 0.62); } /* Soporte        → #3A322C */
 .svc-card:nth-child(2) { background: rgba(55, 55, 55, 0.60); } /* Optimización   → gris medio */
-.svc-card:nth-child(3) { background: rgba(52, 45, 39, 0.84); } /* Implementación → #3A322C */
+.svc-card:nth-child(3) { background: rgba(52, 45, 39, 0.62); } /* Implementación → #3A322C */
 .svc-card:nth-child(4) { background: rgba(48, 48, 48, 0.60); } /* DR             → gris medio */
-.svc-card:nth-child(5) { background: rgba(45, 38, 33, 0.84); } /* Multi-Cloud    → #3A322C */
+.svc-card:nth-child(5) { background: rgba(45, 38, 33, 0.62); } /* Multi-Cloud    → #3A322C */
 .svc-card:nth-child(6) { background: rgba(50, 50, 50, 0.60); } /* Ciberseguridad → gris medio */
 
 /* Hover: aligera la capa para revelar más imagen */
