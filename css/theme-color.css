@@ -30,21 +30,21 @@
   border-left: none;
 }
 
-/* Header bar: very faint white tint on dark bg */
+/* Header bar: transparent on light bg */
 .diagnostic__header {
-  background: rgba(255, 255, 255, 0.03) !important;
+  background: transparent !important;
   padding: 0.75rem 1rem !important;
   margin-left: -1rem;
   margin-right: -1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-bottom: 1px solid rgba(58, 50, 44, 0.18) !important;
   border-radius: 2px 2px 0 0;
 }
 
-/* Section label: pulsing dot on dark */
+/* Section label: pulsing dot on light bg */
 .diagnostic__label::before {
   content: '●';
   font-size: 0.5em;
-  color: rgba(100, 130, 255, 0.8);
+  color: rgba(58, 50, 44, 0.6);
   margin-right: 6px;
   vertical-align: middle;
   animation: diagnosticPulse 2.4s ease-in-out infinite;
@@ -78,9 +78,9 @@
   border-top: 1px solid rgba(58, 50, 44, 0.25) !important;
 }
 
-/* Progress bar track: white-tinted on dark */
+/* Progress bar track */
 .diagnostic__progress-bar {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(58, 50, 44, 0.2) !important;
 }
 
 
