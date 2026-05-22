@@ -39,6 +39,14 @@
 
 <!-- ── VIDEO HERO ─────────────────────────────── -->
 <section id="svc-video-hero" class="svc-video-hero">
+
+  <!-- Cinta marquee superior -->
+  <div class="svc-marquee" aria-hidden="true">
+    <div class="svc-marquee__track">
+      <span class="svc-marquee__copy">NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; </span><span class="svc-marquee__copy">NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; NUESTROS SERVICIOS &nbsp;&#10022;&nbsp; </span>
+    </div>
+  </div>
+
   <video class="svc-video-hero__video" autoplay muted loop playsinline preload="auto">
     <source src="images/LOOP V1.mp4" type="video/mp4">
   </video>
@@ -200,9 +208,9 @@
        ------------------------------------------ */
     if (typeof Lenis !== 'undefined') {
       const lenis = new Lenis({
-        lerp: 0.07,
-        wheelMultiplier: 0.75,
-        touchMultiplier: 1.2,
+        lerp: 0.04,           /* más bajo = más lento y suave */
+        wheelMultiplier: 0.5, /* 50% de distancia por tick de rueda */
+        touchMultiplier: 1.0,
         smoothWheel: true,
       });
 

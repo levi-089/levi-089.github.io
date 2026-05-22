@@ -73,6 +73,43 @@
 }
 
 
+/* ── MARQUEE BAND ────────────────────────────── */
+.svc-marquee {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2.6rem;
+  background: #3A322C;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+
+.svc-marquee__track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  /* 2 copias idénticas → translateX(-50%) crea el loop perfecto */
+  animation: svcMarquee 35s linear infinite;
+  will-change: transform;
+}
+
+.svc-marquee__copy {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+  flex-shrink: 0;
+}
+
+@keyframes svcMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+
 /* ── SERVICES SECTION WRAPPER ────────────────── */
 /* Contenedor con la imagen de fondo animada que
    subyace todas las tarjetas del grid.            */
@@ -133,12 +170,12 @@
 .svc-card__overlay { display: none; }
 
 /* ── Fondos semitransparentes: la imagen se ve a través ── */
-.svc-card:nth-child(1) { background: rgba(12,  28,  85,  0.82); } /* Soporte        → azul oscuro */
-.svc-card:nth-child(2) { background: rgba(55,  55,  55,  0.60); } /* Optimización   → gris medio  */
-.svc-card:nth-child(3) { background: rgba(10,  24,  78,  0.82); } /* Implementación → azul oscuro */
-.svc-card:nth-child(4) { background: rgba(48,  48,  48,  0.60); } /* DR             → gris medio  */
-.svc-card:nth-child(5) { background: rgba( 8,  20,  70,  0.82); } /* Multi-Cloud    → azul oscuro */
-.svc-card:nth-child(6) { background: rgba(50,  50,  50,  0.60); } /* Ciberseguridad → gris medio  */
+.svc-card:nth-child(1) { background: rgba(58, 50, 44, 0.84); } /* Soporte        → #3A322C */
+.svc-card:nth-child(2) { background: rgba(55, 55, 55, 0.60); } /* Optimización   → gris medio */
+.svc-card:nth-child(3) { background: rgba(52, 45, 39, 0.84); } /* Implementación → #3A322C */
+.svc-card:nth-child(4) { background: rgba(48, 48, 48, 0.60); } /* DR             → gris medio */
+.svc-card:nth-child(5) { background: rgba(45, 38, 33, 0.84); } /* Multi-Cloud    → #3A322C */
+.svc-card:nth-child(6) { background: rgba(50, 50, 50, 0.60); } /* Ciberseguridad → gris medio */
 
 /* Hover: aligera la capa para revelar más imagen */
 .svc-card:hover { filter: brightness(1.12); }
