@@ -148,7 +148,7 @@ body.ready .page-wrap { opacity: 1; }
    SCENE 2 — DIAGNOSTIC
    ================================================ */
 .scene--diagnostic {
-  background: #7C7C7C !important;
+  background: #E8E8E8 !important;
   background-image: none !important;
   position: relative;
   z-index: var(--z-content);

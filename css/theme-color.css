@@ -26,7 +26,7 @@
    Cohesive photo treatment via CSS filter + blue overlay.
    ─────────────────────────────────────────────── */
 .scene--diagnostic {
-  background: #7C7C7C !important;
+  background: #E8E8E8 !important;
   background-image: none !important;
   border-left: none;
 }
