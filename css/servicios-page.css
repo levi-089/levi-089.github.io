@@ -155,23 +155,51 @@
   z-index: 1; /* sobre el ::before del wrapper */
 }
 
-/* Card base */
+/* Card base — resetea TODO lo que main.css inyecta en .svc-card */
 .svc-card {
   position: relative;
   overflow: hidden;
   display: block;
   text-decoration: none;
   cursor: pointer;
-  transition: filter 0.35s ease;
-  outline: none;
-  border: none;
-  box-shadow: none;
+  /* Anula main.css: border, radius, shadow, transform */
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: scale(1) translateZ(0);
+  transition:
+    transform  0.55s cubic-bezier(0.16,1,0.3,1),
+    box-shadow 0.55s cubic-bezier(0.16,1,0.3,1),
+    filter     0.35s ease;
 }
 .svc-card:focus,
 .svc-card:focus-visible,
 .svc-card:active {
-  outline: none;
-  box-shadow: none;
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+/* ── Shimmer diagonal al hacer hover ─────────── */
+.svc-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent   0%,
+    rgba(255,255,255,0.07) 45%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0.07) 55%,
+    transparent 100%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.70s cubic-bezier(0.16,1,0.3,1);
+  z-index: 3;
+  pointer-events: none;
+}
+.svc-card:hover::before {
+  transform: translateX(120%);
 }
 
 /* Ocultar imágenes originales — fondo viene del wrapper */
@@ -179,15 +207,21 @@
 .svc-card__overlay { display: none; }
 
 /* ── Fondos semitransparentes: la imagen se ve a través ── */
-.svc-card:nth-child(1) { background: rgba(58, 50, 44, 0.62); } /* Soporte        → #3A322C */
-.svc-card:nth-child(2) { background: rgba(55, 55, 55, 0.60); } /* Optimización   → gris medio */
-.svc-card:nth-child(3) { background: rgba(52, 45, 39, 0.62); } /* Implementación → #3A322C */
-.svc-card:nth-child(4) { background: rgba(48, 48, 48, 0.60); } /* DR             → gris medio */
-.svc-card:nth-child(5) { background: rgba(45, 38, 33, 0.62); } /* Multi-Cloud    → #3A322C */
-.svc-card:nth-child(6) { background: rgba(50, 50, 50, 0.60); } /* Ciberseguridad → gris medio */
+.svc-card:nth-child(1) { background: rgba(58, 50, 44, 0.38); } /* Soporte        → #3A322C muy transparente */
+.svc-card:nth-child(2) { background: rgba(55, 55, 55, 0.55); } /* Optimización   → gris medio */
+.svc-card:nth-child(3) { background: rgba(52, 45, 39, 0.38); } /* Implementación → #3A322C muy transparente */
+.svc-card:nth-child(4) { background: rgba(48, 48, 48, 0.55); } /* DR             → gris medio */
+.svc-card:nth-child(5) { background: rgba(45, 38, 33, 0.38); } /* Multi-Cloud    → #3A322C muy transparente */
+.svc-card:nth-child(6) { background: rgba(50, 50, 50, 0.55); } /* Ciberseguridad → gris medio */
 
-/* Hover: aligera la capa para revelar más imagen */
-.svc-card:hover { filter: brightness(1.12); }
+/* Hover — anula main.css y aplica la propia animación */
+.svc-card:hover {
+  transform: scale(1.035) translateZ(0) !important;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.55) !important;
+  border-color: transparent !important;
+  filter: brightness(1.18);
+  z-index: 5;
+}
 
 /* Content wrapper */
 .svc-card__content {
@@ -255,7 +289,7 @@
   margin: 0;
   transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
 }
-.svc-card:hover .svc-card__title { transform: translateY(-0.25rem); }
+.svc-card:hover .svc-card__title { transform: translateY(-0.5rem); }
 
 /* Detail block — slides up on hover */
 .svc-card__detail {
