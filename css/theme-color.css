@@ -232,14 +232,25 @@
   -webkit-text-fill-color: transparent !important;
 }
 
-/* Botón CTA pill en sección "Nuestros Servicios" */
+/* Botón CTA pill en sección "Nuestros Servicios"
+   Efecto: semitransparente + bisel sutil                */
 .svc-grid__cta-pill {
-  background: #6D001A !important;
-  border-color: #6D001A !important;
+  background: rgba(109, 0, 26, 0.78) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  box-shadow:
+    inset 0  1px 0 rgba(255,255,255,0.20),  /* bisel: borde superior claro  */
+    inset 0 -1px 0 rgba(0,0,0,0.28),         /* bisel: borde inferior oscuro */
+    0 6px 20px rgba(109,0,26,0.38) !important; /* sombra exterior cálida      */
 }
 .svc-grid__cta-pill:hover {
-  background: #560015 !important;
-  border-color: #560015 !important;
+  background: rgba(109, 0, 26, 0.92) !important;
+  box-shadow:
+    inset 0  1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.32),
+    0 10px 30px rgba(109,0,26,0.48) !important;
+  transform: translateY(-2px);
 }
 
 /* Logo vertical en el sello — mix-blend elimina fondo blanco sobre bg claro */
@@ -248,10 +259,15 @@
   width: 150px !important;
 }
 
-/* Ghost button: tono neutro */
+/* Ghost button "Ver todos los servicios" — texto #6D001A */
 .btn-closing-ghost {
-  border-color: rgba(109, 0, 26, 0.25) !important;
-  color: var(--blue, #4361EE) !important;
+  border-color: rgba(109, 0, 26, 0.30) !important;
+  color: #6D001A !important;
+}
+.btn-closing-ghost:hover {
+  border-color: #6D001A !important;
+  color: #6D001A !important;
+  background: rgba(109, 0, 26, 0.05) !important;
 }
 .btn-closing-ghost:hover {
   border-color: var(--blue, #4361EE) !important;
