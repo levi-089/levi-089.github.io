@@ -66,9 +66,9 @@
      2. Ingresa "soluciones@qunox.net" y haz clic en
         "Create Access Key"
      3. Revisa el correo y copia la clave que te envían
-     4. Reemplaza 'TU_CLAVE_WEB3FORMS' abajo con esa clave
+     4. Reemplaza 'b9d73eb1-b378-4f67-8744-465f0f119b12' abajo con esa clave
      ─────────────────────────────────────────────── */
-  const WEB3FORMS_KEY = 'TU_CLAVE_WEB3FORMS';
+  const WEB3FORMS_KEY = 'b9d73eb1-b378-4f67-8744-465f0f119b12';
 
   const form = document.getElementById('contact-form');
   const formBtn = document.getElementById('form-btn');
@@ -92,7 +92,7 @@
       formBtn.textContent = 'Enviando...';
 
       try {
-        if (WEB3FORMS_KEY === 'TU_CLAVE_WEB3FORMS') {
+        if (WEB3FORMS_KEY === 'b9d73eb1-b378-4f67-8744-465f0f119b12') {
           /* Clave no configurada — simula envío para pruebas visuales */
           await new Promise(r => setTimeout(r, 800));
         } else {
