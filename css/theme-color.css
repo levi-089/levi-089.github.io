@@ -161,24 +161,12 @@
    ─────────────────────────────────────────────── */
 
 
-/* ── SCENE 5 — CLOSING CTA
-   Decision: already has a gradient text accent on the
-   headline and gradient on the form submit button.
-   Add:
-   1. A very subtle radial blue "light" at top-centre
-      — think Vercel's glow, but restrained (not a
-      blob, just a 1-layer radial gradient at 8 % opacity)
-   2. A thin horizontal rule above the section
-   3. Corner grid marks (pure CSS, no images)
-      for a technical/enterprise feel
-   ─────────────────────────────────────────────── */
+/* ── SCENE 5 — CLOSING CTA ───────────────────── */
 .scene--closing {
-  background: #F4F5F8 !important; /* slightly cooler than the warm #F8F8F6 */
+  background: #F4F5F8 !important;
 }
 
-/* Top fade — a single centred radial gradient at the top edge.
-   This is NOT a blob: it fades to transparent by 40 % of the
-   section height and has zero horizontal spread. */
+/* Top fade — glow sutil en tono #6D001A */
 .scene--closing::before {
   content: '';
   position: absolute;
@@ -188,14 +176,14 @@
   height: 280px;
   background: radial-gradient(
     ellipse 60% 100% at 50% 0%,
-    rgba(67, 97, 238, 0.06) 0%,
+    rgba(109, 0, 26, 0.05) 0%,
     transparent 100%
   );
   pointer-events: none;
   z-index: 0;
 }
 
-/* Top rule: same gradient as About section top */
+/* Línea superior en tono #6D001A */
 .scene--closing::after {
   content: '';
   display: block;
@@ -205,19 +193,22 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(67, 97, 238, 0.25) 30%,
-    rgba(114, 9, 183, 0.25) 70%,
+    rgba(109, 0, 26, 0.30) 40%,
+    rgba(109, 0, 26, 0.15) 70%,
     transparent 100%
   );
 }
 
-/* Eyebrow: mirror the .label styling for brand consistency */
+/* Eyebrow: líneas laterales en #6D001A */
+.closing__eyebrow {
+  color: #6D001A !important;
+}
 .closing__eyebrow::before {
   content: '';
   display: inline-block;
   width: 20px;
   height: 1px;
-  background: var(--blue, #4361EE);
+  background: #6D001A !important;
   margin-right: 10px;
   vertical-align: middle;
   opacity: 0.7;
@@ -227,15 +218,39 @@
   display: inline-block;
   width: 20px;
   height: 1px;
-  background: var(--blue, #4361EE);
+  background: #6D001A !important;
   margin-left: 10px;
   vertical-align: middle;
   opacity: 0.7;
 }
 
-/* Ghost button: tint border to blue for stronger CTA hierarchy */
+/* Texto acento "bajo control total." → gradiente #6D001A */
+.closing__headline-accent {
+  background: linear-gradient(135deg, #6D001A 0%, #a8002a 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Botón CTA pill en sección "Nuestros Servicios" */
+.svc-grid__cta-pill {
+  background: #6D001A !important;
+  border-color: #6D001A !important;
+}
+.svc-grid__cta-pill:hover {
+  background: #560015 !important;
+  border-color: #560015 !important;
+}
+
+/* Logo vertical en el sello — mix-blend elimina fondo blanco sobre bg claro */
+.closing__seal-img {
+  mix-blend-mode: multiply !important;
+  width: 150px !important;
+}
+
+/* Ghost button: tono neutro */
 .btn-closing-ghost {
-  border-color: rgba(67, 97, 238, 0.30) !important;
+  border-color: rgba(109, 0, 26, 0.25) !important;
   color: var(--blue, #4361EE) !important;
 }
 .btn-closing-ghost:hover {
