@@ -289,18 +289,16 @@
   border-top: 1px solid rgba(67, 97, 238, 0.08);
 }
 
-/* Closing → Clients transition */
-.scene--clients {
-  border-top: 1px solid rgba(67, 97, 238, 0.08);
-}
-
 /* ── SCENE — NUESTRAS MARCAS (partners) ───────── */
 .scene--partners {
+  /* Arranca en negro, abre al rojo marca, cierra suave */
   background:
     linear-gradient(
-      to bottom,
-      #6D001A 0%,
-      #4a0012 100%
+      180deg,
+      #000000 0%,
+      #6D001A 18%,
+      #6D001A 82%,
+      #000000 100%
     ) !important;
 }
 
@@ -328,10 +326,12 @@
   color: rgba(255,255,255,0.22) !important;
 }
 
-/* Logo icons — make them white/bright */
+/* Logo icons — screen blend dissolves white backgrounds on dark bg;
+   brightness boost keeps logos legibles against the crimson */
 .partners__ticker-item img {
-  filter: brightness(0) invert(1) !important;
-  opacity: 0.80;
+  filter: none !important;
+  mix-blend-mode: screen;
+  opacity: 0.85;
 }
 .partners__ticker-item:hover img {
   opacity: 1;
@@ -340,11 +340,14 @@
 
 /* ── SCENE — EMPRESAS QUE CONFÍAN EN QUNOX (clients) ── */
 .scene--clients {
+  /* Espejo del anterior: continúa rojo, cierra en negro */
   background:
     linear-gradient(
-      to bottom,
-      #4a0012 0%,
-      #6D001A 100%
+      180deg,
+      #000000 0%,
+      #6D001A 18%,
+      #6D001A 82%,
+      #000000 100%
     ) !important;
   border-top: none !important;
 }
@@ -368,15 +371,25 @@
   color: rgba(255,255,255,0.20) !important;
 }
 
-/* Fade-edge overlays — match new dark-red bg */
+/* Contenedor necesita position:relative para contener
+   los ::before/::after de fade-edge que son position:absolute */
+.clients__ticker-outer {
+  position: relative !important;
+}
+
+/* Fade-edge — left */
 .clients__ticker-outer::before {
+  left: 0;
   background: linear-gradient(
     to right,
-    #4a0012 0%,
+    #6D001A 0%,
     transparent 100%
   ) !important;
 }
+
+/* Fade-edge — right */
 .clients__ticker-outer::after {
+  right: 0;
   background: linear-gradient(
     to left,
     #6D001A 0%,
