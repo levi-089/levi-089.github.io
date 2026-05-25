@@ -78,7 +78,7 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2.6rem;
-  background: #3A322C;
+  background: #3a000f; /* #6D001A oscurecido */
   overflow: hidden;
   display: flex;
   align-items: center;

@@ -57,15 +57,24 @@
 /* Botón primario CTA */
 .btn-primary {
   background: #7C7C7C !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
+  box-shadow:
+    0 0 0 1px rgba(109,0,26,0.45),
+    0 0 18px 5px rgba(109,0,26,0.38),
+    0 2px 8px rgba(0,0,0,0.28) !important;
 }
 .btn-primary:hover {
   background: #636363 !important;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.35) !important;
+  box-shadow:
+    0 0 0 1px rgba(109,0,26,0.60),
+    0 0 28px 8px rgba(109,0,26,0.52),
+    0 6px 24px rgba(0,0,0,0.38) !important;
 }
 .btn-primary:active {
   background: #7C7C7C !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
+  box-shadow:
+    0 0 0 1px rgba(109,0,26,0.40),
+    0 0 14px 4px rgba(109,0,26,0.32),
+    0 2px 8px rgba(0,0,0,0.25) !important;
 }
 
 /* Menú mobile */
