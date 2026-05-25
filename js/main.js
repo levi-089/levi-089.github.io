@@ -92,28 +92,23 @@
       formBtn.textContent = 'Enviando...';
 
       try {
-        if (WEB3FORMS_KEY === 'b9d73eb1-b378-4f67-8744-465f0f119b12') {
-          /* Clave no configurada — simula envío para pruebas visuales */
-          await new Promise(r => setTimeout(r, 800));
-        } else {
-          const res = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({
-              access_key: WEB3FORMS_KEY,
-              subject:    'QUNOX | Nuevo contacto: ' + nombre,
-              from_name:  'QUNOX Web',
-              replyto:    email,
-              nombre,
-              empresa:    empresa || '—',
-              email,
-              rol:        rol     || '—',
-              mensaje
-            })
-          });
-          const data = await res.json();
-          if (!data.success) throw new Error(data.message || 'Error');
-        }
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject:    'QUNOX | Nuevo contacto: ' + nombre,
+            from_name:  'QUNOX Web',
+            replyto:    email,
+            nombre,
+            empresa:    empresa || '—',
+            email,
+            rol:        rol     || '—',
+            mensaje
+          })
+        });
+        const data = await res.json();
+        if (!data.success) throw new Error(data.message || 'Error');
         form.style.display = 'none';
         if (formSuccess) formSuccess.style.display = 'block';
       } catch (err) {
