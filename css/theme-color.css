@@ -294,10 +294,94 @@
   border-top: 1px solid rgba(67, 97, 238, 0.08);
 }
 
-/* Clients: faint blue numbers on client count label */
+/* ── SCENE — NUESTRAS MARCAS (partners) ───────── */
+.scene--partners {
+  background:
+    linear-gradient(
+      to bottom,
+      #6D001A 0%,
+      #4a0012 100%
+    ) !important;
+}
+
+/* Label */
+.partners__label {
+  color: rgba(255,255,255,0.55) !important;
+  opacity: 1 !important;
+}
+
+/* Row dividers */
+.partners__row {
+  border-top-color: rgba(255,255,255,0.10) !important;
+}
+.partners__row:last-child {
+  border-bottom-color: rgba(255,255,255,0.10) !important;
+}
+
+/* Brand names in ticker */
+.partners__ticker-item span {
+  color: rgba(255,255,255,0.88) !important;
+}
+
+/* Separator star */
+.partners__ticker-sep {
+  color: rgba(255,255,255,0.22) !important;
+}
+
+/* Logo icons — make them white/bright */
+.partners__ticker-item img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.80;
+}
+.partners__ticker-item:hover img {
+  opacity: 1;
+}
+
+
+/* ── SCENE — EMPRESAS QUE CONFÍAN EN QUNOX (clients) ── */
+.scene--clients {
+  background:
+    linear-gradient(
+      to bottom,
+      #4a0012 0%,
+      #6D001A 100%
+    ) !important;
+  border-top: none !important;
+}
+
+/* Label */
 .clients__label {
-  color: var(--blue, #4361EE) !important;
-  opacity: 0.5;
+  color: rgba(255,255,255,0.50) !important;
+  opacity: 1 !important;
+}
+
+/* Company name items */
+.clients__ticker-item {
+  color: rgba(255,255,255,0.50) !important;
+}
+.clients__ticker-item:hover {
+  color: rgba(255,255,255,0.90) !important;
+}
+
+/* Separator */
+.clients__ticker-sep {
+  color: rgba(255,255,255,0.20) !important;
+}
+
+/* Fade-edge overlays — match new dark-red bg */
+.clients__ticker-outer::before {
+  background: linear-gradient(
+    to right,
+    #4a0012 0%,
+    transparent 100%
+  ) !important;
+}
+.clients__ticker-outer::after {
+  background: linear-gradient(
+    to left,
+    #6D001A 0%,
+    transparent 100%
+  ) !important;
 }
 
 
