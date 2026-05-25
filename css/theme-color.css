@@ -7,6 +7,49 @@
    ================================================ */
 
 
+/* ── NAV & HEADER — nueva colorimetría #6D001A ──── */
+
+/* Logo horizontal — ajuste de altura */
+.nav-logo-img {
+  height: 42px !important;
+  max-height: 42px !important;
+  width: auto !important;
+}
+
+/* Botón primario CTA */
+.btn-primary {
+  background: #6D001A !important;
+  box-shadow: 0 2px 8px rgba(109,0,26,0.28) !important;
+}
+.btn-primary:hover {
+  background: #560015 !important;
+  box-shadow: 0 6px 24px rgba(109,0,26,0.40) !important;
+}
+.btn-primary:active {
+  background: #6D001A !important;
+  box-shadow: 0 2px 8px rgba(109,0,26,0.28) !important;
+}
+
+/* Links de navegación — hover y activo */
+.nav-links a:hover,
+.nav-links a.active {
+  color: #6D001A !important;
+}
+/* Línea indicadora bajo el link */
+.nav-links a::after {
+  background: linear-gradient(90deg, #6D001A, #a0002a) !important;
+}
+
+/* Menú mobile */
+.mobile-link:hover,
+.mobile-link.active {
+  color: #6D001A !important;
+}
+.mobile-link {
+  border-bottom-color: rgba(109,0,26,0.10) !important;
+}
+
+
 /* ── SCENE 2 — NOSOTROS (About)
    Light gray surface that fades into the black diagnostic
    section at the bottom via an ::after gradient overlay.
