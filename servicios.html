@@ -197,6 +197,33 @@
 </section>
 
 <script src="js/main.js"></script>
+
+<!-- ── Video autoplay robusto — independiente de GSAP ─── -->
+<script>
+  (function () {
+    function tryPlay() {
+      var v = document.querySelector('.svc-video-hero__video');
+      if (!v) return;
+      v.muted = true;
+      v.setAttribute('playsinline', '');
+      var p = v.play();
+      if (p !== undefined) {
+        p.catch(function () {
+          /* Fallback: reproducir en la primera interacción */
+          ['click', 'touchstart', 'scroll', 'keydown'].forEach(function (evt) {
+            document.addEventListener(evt, function () { v.play(); }, { once: true, passive: true });
+          });
+        });
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', tryPlay);
+    } else {
+      tryPlay();
+    }
+  })();
+</script>
+
 <script>
   window.addEventListener('load', function () {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
