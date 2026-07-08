@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 76" width="270" height="76">
+  <defs>
+    <clipPath id="sgl">
+      <circle cx="38" cy="38" r="35"/>
+    </clipPath>
+  </defs>
+  <circle cx="38" cy="38" r="35" fill="#1B4DA6"/>
+  <ellipse cx="38" cy="12"  rx="35" ry="24" fill="#52C5EF" clip-path="url(#sgl)"/>
+  <ellipse cx="38" cy="29"  rx="35" ry="4.5" fill="#ffffff" clip-path="url(#sgl)"/>
+  <ellipse cx="38" cy="39"  rx="35" ry="14"  fill="#5BBB2E" clip-path="url(#sgl)"/>
+  <ellipse cx="38" cy="49"  rx="35" ry="4.5" fill="#ffffff" clip-path="url(#sgl)"/>
+  <ellipse cx="38" cy="59"  rx="35" ry="13"  fill="#2A6EC8" clip-path="url(#sgl)"/>
+  <ellipse cx="38" cy="68"  rx="35" ry="4"   fill="#ffffff" clip-path="url(#sgl)"/>
+  <ellipse cx="38" cy="76"  rx="35" ry="12"  fill="#153E8A" clip-path="url(#sgl)"/>
+  <!-- Dark text for light backgrounds -->
+  <text x="88" y="52"
+    font-family="'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif"
+    font-size="28"
+    font-weight="900"
+    fill="#1A1A2E"
+    letter-spacing="1.5">SANGFOR</text>
+</svg>
