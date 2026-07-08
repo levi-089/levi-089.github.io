@@ -499,6 +499,15 @@ footer{background:var(--ink);color:rgba(255,255,255,0.5);padding:3rem var(--gutt
   transition: opacity 0.2s, margin-top 0.2s, visibility 0s 0.2s;
   z-index: 200; box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
+/* Puente transparente que cubre el gap entre el trigger y el dropdown */
+.nav-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: -10px;
+  right: -10px;
+  height: 12px;
+}
 .nav-item--dropdown:hover .nav-dropdown,
 .nav-item--dropdown.open .nav-dropdown {
   opacity: 1; visibility: visible; pointer-events: auto;
