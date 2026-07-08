@@ -92,10 +92,10 @@
       <div class="sf-stat__number">+5000</div>
       <div class="sf-stat__label">Clientes en todo el mundo</div>
     </div>
-    <div class="sf-stat">
+    <a class="sf-stat sf-stat--link" href="https://www.gartner.com/reviews/product/sangfor-hci?utm_source=chatgpt.com" target="_blank" rel="noopener">
       <div class="sf-stat__number">Magic<br><span style="font-size:1rem">Quadrant</span></div>
-      <div class="sf-stat__label">Gartner HCI 2024</div>
-    </div>
+      <div class="sf-stat__label">Gartner HCI</div>
+    </a>
   </div>
 </section>
 
@@ -259,6 +259,7 @@
 
 <!-- ── RESOURCES (movido después de productos) ────── -->
 <section class="sf-resources" id="recursos">
+  <canvas class="sf-resources__plexus" aria-hidden="true"></canvas>
   <div class="sf-resources__inner">
     <div class="sf-resources__header">
       <div class="sf-resources__brand">
@@ -584,6 +585,84 @@
 </footer>
 
 <script src="js/main.js"></script>
+
+<!-- ── RESOURCES PLEXUS ──────────────────────────── -->
+<script>
+(function () {
+  var canvas = document.querySelector('.sf-resources__plexus');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W, H, particles = [], raf;
+  var COUNT = 65;
+  var MAX_DIST = 150;
+  var SPEED = 0.26;
+
+  function resize() {
+    var section = canvas.parentElement;
+    W = canvas.width  = section.offsetWidth;
+    H = canvas.height = section.offsetHeight;
+  }
+
+  function Particle() {
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * SPEED;
+    this.vy = (Math.random() - 0.5) * SPEED;
+    this.r  = Math.random() * 1.6 + 0.8;
+  }
+
+  Particle.prototype.move = function () {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0 || this.x > W) this.vx *= -1;
+    if (this.y < 0 || this.y > H) this.vy *= -1;
+  };
+
+  function init() {
+    resize();
+    particles = [];
+    for (var i = 0; i < COUNT; i++) particles.push(new Particle());
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.move();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(120,165,225,0.50)';
+      ctx.fill();
+      for (var j = i + 1; j < particles.length; j++) {
+        var q = particles[j];
+        var dx = p.x - q.x, dy = p.y - q.y;
+        var d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < MAX_DIST) {
+          var alpha = (1 - d / MAX_DIST) * 0.30;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = 'rgba(100,150,220,' + alpha + ')';
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+    }
+    raf = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', function () {
+    resize();
+    particles.forEach(function (p) {
+      if (p.x > W) p.x = W - 5;
+      if (p.y > H) p.y = H - 5;
+    });
+  });
+
+  init();
+  draw();
+})();
+</script>
 
 <!-- ── PLEXUS ANIMATION ───────────────────────────── -->
 <script>

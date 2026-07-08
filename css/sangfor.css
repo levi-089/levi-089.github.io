@@ -176,6 +176,19 @@
 
 .sf-stat { text-align: center; }
 
+.sf-stat--link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  border-radius: 8px;
+  transition: opacity 0.2s;
+}
+.sf-stat--link:hover { opacity: 0.75; }
+.sf-stat--link .sf-stat__label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .sf-stat__number {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 2rem;
@@ -445,12 +458,28 @@
 }
 
 /* ── RESOURCES ────────────────────────────────────── */
-.sf-resources { background: #f7f7f9; position: relative; z-index: 1; }
+.sf-resources {
+  background: #08080a;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.sf-resources__plexus {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
 
 .sf-resources__inner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 5rem 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .sf-resources__header {
@@ -481,8 +510,8 @@
 }
 
 .sf-rcard {
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.09);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 10px;
   padding: 1.5rem;
   text-decoration: none;
@@ -491,12 +520,12 @@
   flex-direction: column;
   gap: 0.75rem;
   transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 .sf-rcard:hover {
-  border-color: rgba(109,0,26,0.30);
+  border-color: rgba(109,0,26,0.55);
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(0,0,0,0.09);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.4);
   color: inherit;
 }
 
@@ -505,7 +534,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #6D001A;
+  color: rgba(150,190,240,0.85);
 }
 
 .sf-rcard__title {
@@ -513,19 +542,23 @@
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.35;
-  color: #111214;
+  color: rgba(255,255,255,0.90);
 }
 
 .sf-rcard__arrow {
-  color: #d1d5db;
+  color: rgba(255,255,255,0.25);
   font-size: 1.1rem;
   margin-top: auto;
   transition: color 0.2s, transform 0.2s;
 }
 .sf-rcard:hover .sf-rcard__arrow {
-  color: #6D001A;
+  color: #e05070;
   transform: translate(2px, -2px);
 }
+
+/* Resources dark overrides */
+.sf-resources .sf-eyebrow { color: rgba(130,180,240,0.85); }
+.sf-resources .sf-heading { color: #ffffff; }
 
 /* ── ROADMAP ──────────────────────────────────────── */
 .sf-roadmap { background: #fff; position: relative; z-index: 1; }
