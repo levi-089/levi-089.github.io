@@ -347,6 +347,27 @@
   transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
   position: relative;
   overflow: hidden;
+  /* anchor reset */
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.sf-pcard__cta {
+  margin-top: auto;
+  padding-top: 1.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6D001A;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.sf-pcard:hover .sf-pcard__cta {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .sf-pcard::after {
