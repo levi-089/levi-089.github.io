@@ -16,7 +16,13 @@
     <a href="../index.html"><img src="../images/NEGRO QUNOX COMPLETA.png" alt="QUNOX" class="nav-logo-img"/></a>
     <ul class="nav-links">
       <li><a href="../index.html">Inicio</a></li>
-      <li><a href="../servicios.html" class="active">Servicios</a></li>
+      <li class="nav-item--dropdown">
+        <a class="nav-dropdown-trigger active" href="../servicios.html">Soluciones <svg class="nav-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></a>
+        <ul class="nav-dropdown">
+          <li><a href="../servicios.html" class="active">Servicios</a></li>
+          <li><a href="../sangfor.html">Sangfor</a></li>
+        </ul>
+      </li>
       <li><a href="../contacto.html">Contacto</a></li>
     </ul>
     <a href="../contacto.html" class="btn btn-primary nav-cta">Habla con un Especialista</a>
@@ -25,7 +31,9 @@
 </nav>
 <div class="mobile-menu" id="mobile-menu">
   <a href="../index.html" class="mobile-link">Inicio</a>
-  <a href="../servicios.html" class="mobile-link">Servicios</a>
+  <span class="mobile-section-label">Soluciones</span>
+  <a href="../servicios.html" class="mobile-link mobile-link--sub active">Servicios</a>
+  <a href="../sangfor.html" class="mobile-link mobile-link--sub">Sangfor</a>
   <a href="../contacto.html" class="mobile-link">Contacto</a>
   <a href="../contacto.html" class="btn btn-primary mobile-cta">Habla con un Especialista</a>
 </div>
