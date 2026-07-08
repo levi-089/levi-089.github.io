@@ -455,7 +455,7 @@
 
 .sf-resources__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
 }
 
@@ -868,7 +868,7 @@
   .sf-steps { grid-template-columns: repeat(3, 1fr); }
   .sf-steps::before { display: none; }
   .sf-why__inner { grid-template-columns: 1fr; gap: 2.5rem; }
-  .sf-resources__grid { grid-template-columns: repeat(2, 1fr); }
+  .sf-resources__grid { grid-template-columns: repeat(3, 1fr); }
   .sf-resources__header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
 }
 
