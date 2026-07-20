@@ -1,0 +1,222 @@
+/* ================================================================
+   QUNOX — Sangfor "Soluciones" scroll-motion experience
+   Encapsulated: only affects the #productos section.
+   Prefix: qsm- (QUNOX Services Motion) + data-service-motion-*
+   ----------------------------------------------------------------
+   Default (no JS / fallback): the original grid is untouched.
+   html.qsm-on     -> desktop pinned scroll narrative
+   html.qsm-reveal -> tablet/mobile staggered reveal-on-enter
+   ================================================================ */
+
+/* Visual + progress layers are hidden unless the desktop
+   narrative is active — the fallback shows only the grid. */
+.qsm-visuals,
+.qsm-progress { display: none; }
+
+/* ---- Button / link hover swap (progressive, all breakpoints) ---- */
+.qsm-swap {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.qsm-swap__in {
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.qsm-swap__in--dup {
+  position: absolute;
+  top: 0; left: 0;
+  transform: translateY(110%);
+}
+@media (hover: hover) and (pointer: fine) {
+  .sf-pcard:hover .qsm-swap__in { transform: translateY(-110%); }
+  .sf-pcard:hover .qsm-swap__in--dup { transform: translateY(0); }
+}
+
+/* ================================================================
+   REVEAL-ON-ENTER  (tablet + mobile, JS on, motion allowed)
+   ================================================================ */
+html.qsm-reveal .sf-pcard {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+html.qsm-reveal .sf-pcard.qsm-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ================================================================
+   DESKTOP PINNED NARRATIVE  (html.qsm-on, >=1025px)
+   ================================================================ */
+@media (min-width: 1025px) {
+
+  html.qsm-on .sf-products { background: #fff; }
+
+  /* The pinned stage: header on top, then content | visual */
+  html.qsm-on .sf-products__inner {
+    --qsm-nav: 90px;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "head head"
+      "content visual";
+    column-gap: 4rem;
+    row-gap: 1.5rem;
+    align-items: stretch;
+    min-height: calc(100vh - var(--qsm-nav));
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  html.qsm-on .sf-products__header {
+    grid-area: head;
+    margin-bottom: 0;
+    max-width: 640px;
+  }
+
+  /* ---- CONTENT COLUMN: cards stacked, only active shown ---- */
+  html.qsm-on .sf-products__grid {
+    grid-area: content;
+    display: block;
+    position: relative;
+    width: 100%;
+  }
+  html.qsm-on .sf-pcard {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    transform: none !important;      /* GSAP handles children, not the card lift */
+    overflow: visible;
+  }
+  html.qsm-on .sf-pcard::after { display: none; }        /* kill card hover glow */
+  html.qsm-on .sf-pcard:hover {
+    border: none;
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* Title becomes the dominant element, clipped for the reveal */
+  html.qsm-on .sf-pcard__name {
+    overflow: hidden;
+    font-size: clamp(2.2rem, 3.6vw, 3.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  html.qsm-on .qsm-titleline { display: inline-block; will-change: transform; }
+
+  html.qsm-on .sf-pcard__tag { align-self: flex-start; margin-bottom: 1.1rem; }
+  html.qsm-on .sf-pcard__full { font-size: 0.95rem; margin-bottom: 1.25rem; }
+  html.qsm-on .sf-pcard__desc { font-size: 0.98rem; max-width: 32rem; }
+  html.qsm-on .sf-pcard__features { margin-top: 0.35rem; }
+  html.qsm-on .sf-pcard__cta {
+    opacity: 1;              /* always shown in narrative mode */
+    transform: none;
+    margin-top: 1.6rem;
+    padding-top: 0;
+    font-size: 0.85rem;
+  }
+
+  /* ---- VISUAL COLUMN ---- */
+  html.qsm-on .qsm-visuals {
+    grid-area: visual;
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    align-self: center;
+    max-height: min(64vh, 560px);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  html.qsm-on .qsm-visual {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    clip-path: inset(100% 0 0 0);
+    opacity: 0;
+    will-change: clip-path, opacity;
+  }
+  html.qsm-on .qsm-visual__inner {
+    position: absolute;
+    inset: -6%;                 /* extra bleed for parallax */
+    width: 112%;
+    height: 112%;
+    will-change: transform;
+  }
+  html.qsm-on .qsm-visual svg { width: 100%; height: 100%; display: block; }
+
+  /* ---- PROGRESS INDICATOR (secondary) ---- */
+  html.qsm-on .qsm-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    position: absolute;
+    left: 0;
+    bottom: 1.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    z-index: 4;
+  }
+  html.qsm-on .qsm-progress__num {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #6D001A;
+    font-variant-numeric: tabular-nums;
+    min-width: 2ch;
+    text-align: center;
+  }
+  html.qsm-on .qsm-progress__total { color: #9ca3af; }
+  html.qsm-on .qsm-progress__track {
+    position: relative;
+    width: 160px;
+    height: 2px;
+    background: rgba(0,0,0,0.10);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  html.qsm-on .qsm-progress__bar {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #6D001A, #b00028);
+    transform-origin: left center;
+    transform: scaleX(0);
+  }
+
+  /* Prevent horizontal overflow from the bleeding parallax layer */
+  html.qsm-on .sf-products { overflow: hidden; }
+}
+
+/* Give a little more breathing room on very tall viewports */
+@media (min-width: 1025px) and (min-height: 900px) {
+  html.qsm-on .qsm-visuals { height: min(58vh, 560px); }
+}
+
+/* ================================================================
+   REDUCED MOTION — nothing above should ever hide content.
+   (JS also refuses to add qsm-on / qsm-reveal in this case, but
+   this is a belt-and-suspenders guarantee.)
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html.qsm-reveal .sf-pcard { opacity: 1; transform: none; transition: none; }
+  .qsm-swap__in { transition: none; }
+}
