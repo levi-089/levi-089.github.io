@@ -1,14 +1,16 @@
 /* ================================================================
-   QUNOX — Sangfor "Soluciones" scroll-motion controller
+   QUNOX — Sangfor "Soluciones" scroll-motion controller  v2
    ----------------------------------------------------------------
-   Dependencies (loaded before this file): gsap, ScrollTrigger.
-   Scope: ONLY the [data-service-motion-section] node (#productos).
-   - Desktop (>=1025, fine pointer, hover): pinned scroll narrative.
+   Pattern (Izanami-style): stacked sticky panels. Each solution is
+   a full-height sticky panel; the next slides up and covers it —
+   native compositing, 1:1 scroll mapping (no scrub crossfades).
+   GSAP/ScrollTrigger only adds: per-panel content reveals, the
+   covered-panel depth recede, visual parallax and the progress HUD.
+   Scope: ONLY [data-service-motion-section] (#productos).
+   - Desktop (>=1025, fine pointer): panels.
    - Tablet / mobile: staggered reveal-on-enter.
-   - prefers-reduced-motion: no motion, content shown immediately.
-   - No JS / no gsap: original grid renders untouched (fallback).
-   Uses native scroll + ScrollTrigger scrub (no smooth-scroll lib,
-   to avoid conflicts with the sticky nav and the plexus canvas).
+   - prefers-reduced-motion: static, everything visible.
+   - No JS / no gsap: original grid (fallback).
    ================================================================ */
 (function () {
   'use strict';
@@ -19,47 +21,38 @@
     var section = document.querySelector('[data-service-motion-section]');
     if (!section) return;
 
-    // Progressive: the hover text-swap works with or without motion.
     enhanceButtons(section);
 
-    // No animation engine or reduced motion -> leave content as-is.
     if (!window.gsap || !window.ScrollTrigger || REDUCE) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
     var mm = gsap.matchMedia();
 
-    // ---- Desktop: pinned narrative ----
     mm.add('(min-width: 1025px) and (hover: hover) and (pointer: fine)', function () {
-      return buildDesktop(section);
+      return buildPanels(section);
     });
 
-    // ---- Tablet + mobile: reveal on enter ----
     mm.add('(max-width: 1024px)', function () {
       return buildReveal(section);
     });
 
-    // Recalculate once images/fonts have settled.
-    window.addEventListener('load', function () {
-      ScrollTrigger.refresh();
-    });
+    window.addEventListener('load', function () { ScrollTrigger.refresh(); });
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
     }
   }
 
   /* --------------------------------------------------------------
-     Hover text-swap for each card CTA (duplicate line, no new text)
+     CTA hover: duplicated line slides in from below (clip swap)
      -------------------------------------------------------------- */
   function enhanceButtons(section) {
-    var ctas = section.querySelectorAll('.sf-pcard__cta');
-    ctas.forEach(function (cta) {
-      if (cta.querySelector('.qsm-swap')) return;      // idempotent
+    section.querySelectorAll('.sf-pcard__cta').forEach(function (cta) {
+      if (cta.querySelector('.qsm-swap')) return;
       var text = cta.textContent;
       cta.textContent = '';
       var swap = document.createElement('span');
       swap.className = 'qsm-swap';
-      swap.setAttribute('aria-hidden', 'false');
       var a = document.createElement('span');
       a.className = 'qsm-swap__in';
       a.textContent = text;
@@ -74,182 +67,182 @@
   }
 
   /* --------------------------------------------------------------
-     DESKTOP — pinned, scroll-scrubbed narrative
+     DESKTOP — stacked sticky panels
      -------------------------------------------------------------- */
-  function buildDesktop(section) {
-    var inner = section.querySelector('.sf-products__inner');
+  function buildPanels(section) {
+    var grid = section.querySelector('.sf-products__grid');
     var cards = gsap.utils.toArray(section.querySelectorAll('.sf-pcard'));
     var visuals = gsap.utils.toArray(section.querySelectorAll('.qsm-visual'));
+    var progress = section.querySelector('.qsm-progress');
     var n = cards.length;
-    if (!inner || n < 2) return;
+    if (!grid || n < 2) return;
 
-    document.documentElement.classList.add('qsm-on');
-
-    // Sync stage height to the live nav height.
+    var inner = section.querySelector('.sf-products__inner');
     var nav = document.getElementById('nav');
     var navH = nav ? nav.offsetHeight : 90;
-    inner.style.setProperty('--qsm-nav', navH + 'px');
 
-    // Tag items for the spec's data-* contract.
-    cards.forEach(function (c, i) {
-      c.setAttribute('data-service-motion-item', String(i));
-    });
-
-    // Wrap each title so it can slide inside its clipping box.
-    cards.forEach(function (card) {
-      var name = card.querySelector('.sf-pcard__name');
-      if (name && !name.querySelector('.qsm-titleline')) {
-        name.innerHTML = '<span class="qsm-titleline">' + name.innerHTML + '</span>';
-      }
-    });
-
-    // Ordered animatable pieces of a card (excluding the title line).
-    function pre(card) {
-      return [card.querySelector('.sf-pcard__tag')].filter(Boolean);
-    }
-    function post(card) {
-      return gsap.utils.toArray(card.querySelectorAll(
-        '.sf-pcard__full, .sf-pcard__desc, .sf-pcard__features, .sf-pcard__cta'
-      ));
-    }
-    function title(card) { return card.querySelector('.qsm-titleline'); }
-    function vinner(v) { return v.querySelector('.qsm-visual__inner'); }
-
+    var moved = [];   // visuals relocated into panels (restored on cleanup)
     var ctx;
+
     try {
-    ctx = gsap.context(function (self) {
+      document.documentElement.classList.add('qsm-on');
+      inner.style.setProperty('--qsm-nav', navH + 'px');
 
-      // ---- Initial states ----
+      // Prepare each panel: index attrs, stacking order, veil, its visual,
+      // and the clipped title line.
       cards.forEach(function (card, i) {
-        if (i === 0) {
-          gsap.set(card, { autoAlpha: 1 });
-          gsap.set(title(card), { yPercent: 0 });
-          gsap.set(pre(card).concat(post(card)), { y: 0, autoAlpha: 1 });
-        } else {
-          gsap.set(card, { autoAlpha: 0 });
-          gsap.set(title(card), { yPercent: 110 });
-          gsap.set(pre(card).concat(post(card)), { y: 34, autoAlpha: 0 });
+        card.setAttribute('data-service-motion-item', String(i));
+        card.setAttribute('data-qsm-idx', String(i));
+        card.setAttribute('data-qsm-num', (i < 9 ? '0' : '') + (i + 1));
+        if (i === n - 1) card.setAttribute('data-qsm-dark', '');
+        card.style.zIndex = String(10 + i);
+
+        if (!card.querySelector('.qsm-veil')) {
+          var veil = document.createElement('span');
+          veil.className = 'qsm-veil';
+          veil.setAttribute('aria-hidden', 'true');
+          card.appendChild(veil);
         }
-      });
-      visuals.forEach(function (v, i) {
-        if (i === 0) {
-          gsap.set(v, { autoAlpha: 1, clipPath: 'inset(0% 0 0% 0)' });
-          gsap.set(vinner(v), { yPercent: 0, scale: 1.06 });
-        } else {
-          gsap.set(v, { autoAlpha: 0, clipPath: 'inset(100% 0 0% 0)' });
-          gsap.set(vinner(v), { yPercent: 8, scale: 1.12 });
+        if (visuals[i] && visuals[i].parentElement !== card) {
+          moved.push({ node: visuals[i], home: visuals[i].parentElement });
+          card.appendChild(visuals[i]);
+        }
+        var name = card.querySelector('.sf-pcard__name');
+        if (name && !name.querySelector('.qsm-titleline')) {
+          name.innerHTML = '<span class="qsm-titleline">' + name.innerHTML + '</span>';
         }
       });
 
-      // ---- Master timeline (scrubbed) ----
-      var tl = gsap.timeline({
-        defaults: { ease: 'power2.inOut' },
-        scrollTrigger: {
-          trigger: section,
-          start: function () { return 'top ' + navH; },
-          end: function () { return '+=' + Math.round(n * window.innerHeight * 0.82); },
-          pin: inner,
-          pinSpacing: true,
-          scrub: 0.8,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: function (self) {
-            // Counter follows whichever card is currently most opaque, so it
-            // always matches what the viewer sees. gsap.getProperty reads the
-            // animated value without forcing layout.
-            var best = 0, bestO = -1;
-            for (var k = 0; k < n; k++) {
-              var o = parseFloat(gsap.getProperty(cards[k], 'opacity'));
-              if (o > bestO) { bestO = o; best = k; }
-            }
-            setProgress(section, best, n, self.progress);
+      ctx = gsap.context(function () {
+
+        cards.forEach(function (card, i) {
+          var title = card.querySelector('.qsm-titleline');
+          var tag = card.querySelector('.sf-pcard__tag');
+          var rest = gsap.utils.toArray(card.querySelectorAll(
+            '.sf-pcard__full, .sf-pcard__desc, .sf-pcard__features li, .sf-pcard__cta'
+          ));
+          var vis = card.querySelector('.qsm-visual');
+          var visInner = vis ? vis.querySelector('.qsm-visual__inner') : null;
+
+          // -- Content reveal when the panel becomes the active one --
+          var reveal = gsap.timeline({
+            paused: true,
+            defaults: { ease: 'power3.out' }
+          });
+          reveal
+            .fromTo(title, { yPercent: 110 }, { yPercent: 0, duration: 0.9, ease: 'expo.out' }, 0)
+            .fromTo(tag, { y: 22, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.55 }, 0.05)
+            .fromTo(rest, { y: 28, autoAlpha: 0 },
+                    { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.07 }, 0.18);
+          if (vis) {
+            reveal.fromTo(vis, { clipPath: 'inset(8% 6% 8% 6% round 20px)', autoAlpha: 0 },
+                          { clipPath: 'inset(0% 0% 0% 0% round 20px)', autoAlpha: 1, duration: 0.9, ease: 'power2.out' }, 0.1)
+                  .fromTo(visInner, { scale: 1.1 }, { scale: 1, duration: 1.2, ease: 'power2.out' }, 0.1);
           }
-        }
-      });
 
-      for (var i = 1; i < n; i++) {
-        var t = i;                       // one time-unit per transition
-        var prevCard = cards[i - 1], curCard = cards[i];
-        var prevV = visuals[i - 1], curV = visuals[i];
+          ScrollTrigger.create({
+            trigger: card,
+            start: 'top 62%',
+            onEnter: function () { reveal.play(); },
+            onLeaveBack: function () { reveal.reverse(); }
+          });
+          // Panel 1 sits right under the header: reveal it as it approaches.
+          if (i === 0) {
+            ScrollTrigger.create({
+              trigger: card,
+              start: 'top 95%',
+              once: true,
+              onEnter: function () { reveal.play(); }
+            });
+          }
 
-        // outgoing
-        tl.to(title(prevCard), { yPercent: -110, duration: 0.5, ease: 'power2.in' }, t)
-          .to(pre(prevCard).concat(post(prevCard)),
-              { y: -22, autoAlpha: 0, duration: 0.4, ease: 'power2.in' }, t)
-          .to(prevCard, { autoAlpha: 0, duration: 0.3 }, t + 0.3)
-          .to(prevV, { clipPath: 'inset(0% 0 100% 0)', autoAlpha: 0, duration: 0.6 }, t)
-          .to(vinner(prevV), { yPercent: -6, duration: 0.6 }, t);
+          // -- Depth recede while the NEXT panel covers this one (scrubbed) --
+          if (i < n - 1) {
+            var veil = card.querySelector('.qsm-veil');
+            gsap.timeline({
+              scrollTrigger: {
+                trigger: cards[i + 1],
+                start: 'top bottom',
+                end: 'top top',
+                scrub: true
+              }
+            })
+            .to(card, { scale: 0.955, yPercent: -2.5, ease: 'none' }, 0)
+            .to(veil, { opacity: 1, ease: 'none' }, 0);
+          }
 
-        // incoming
-        tl.set(curCard, { autoAlpha: 1 }, t + 0.12)
-          .fromTo(title(curCard), { yPercent: 110 },
-                  { yPercent: 0, duration: 0.7, ease: 'expo.out' }, t + 0.18)
-          .fromTo(pre(curCard), { y: 30, autoAlpha: 0 },
-                  { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out' }, t + 0.14)
-          .fromTo(post(curCard), { y: 34, autoAlpha: 0 },
-                  { y: 0, autoAlpha: 1, duration: 0.6, stagger: 0.08, ease: 'power3.out' }, t + 0.3)
-          .fromTo(curV, { clipPath: 'inset(100% 0 0% 0)', autoAlpha: 1 },
-                  { clipPath: 'inset(0% 0 0% 0)', duration: 0.7 }, t + 0.05)
-          .fromTo(vinner(curV), { yPercent: 8, scale: 1.12 },
-                  { yPercent: 0, scale: 1.06, duration: 0.8, ease: 'power2.out' }, t + 0.05);
-      }
+          // -- Gentle parallax inside the visual, tied to scroll --
+          if (visInner) {
+            gsap.fromTo(visInner, { yPercent: 5 }, {
+              yPercent: -5,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: card,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true
+              }
+            });
+          }
 
-      // trailing hold so the last service breathes before unpin
-      tl.to({}, { duration: 0.55 }, n - 1 + 0.9);
-
-      // ---- Pointer parallax (columns move at different speeds) ----
-      var visualsWrap = section.querySelector('.qsm-visuals');
-      var contentWrap = section.querySelector('.sf-products__grid');
-      if (visualsWrap && contentWrap) {
-        var vx = gsap.quickTo(visualsWrap, 'x', { duration: 0.6, ease: 'power3' });
-        var vy = gsap.quickTo(visualsWrap, 'y', { duration: 0.6, ease: 'power3' });
-        var cx = gsap.quickTo(contentWrap, 'x', { duration: 0.6, ease: 'power3' });
-        var cy = gsap.quickTo(contentWrap, 'y', { duration: 0.6, ease: 'power3' });
-
-        var onMove = function (e) {
-          var r = inner.getBoundingClientRect();
-          var nx = (e.clientX - r.left) / r.width - 0.5;   // -0.5..0.5
-          var ny = (e.clientY - r.top) / r.height - 0.5;
-          vx(nx * 12); vy(ny * 12);       // visual: up to ~6px each way
-          cx(nx * 5);  cy(ny * 5);        // content: subtler
-        };
-        var onLeave = function () { vx(0); vy(0); cx(0); cy(0); };
-        inner.addEventListener('mousemove', onMove);
-        inner.addEventListener('mouseleave', onLeave);
-
-        // context cleanup also removes these listeners
-        self.add(function () {
-          inner.removeEventListener('mousemove', onMove);
-          inner.removeEventListener('mouseleave', onLeave);
+          // -- Progress counter: this panel is current while it owns the view --
+          ScrollTrigger.create({
+            trigger: card,
+            start: 'top 55%',
+            end: 'bottom 55%',
+            onToggle: function (self) {
+              if (self.isActive && progress) {
+                var cur = progress.querySelector('.qsm-progress__current');
+                if (cur) cur.textContent = (i < 9 ? '0' : '') + (i + 1);
+                progress.classList.toggle('qsm-progress--ondark', i === n - 1);
+              }
+            }
+          });
         });
-      }
-    }, section);
+
+        // -- Progress HUD visibility + bar fill across the whole stack --
+        ScrollTrigger.create({
+          trigger: grid,
+          start: 'top 60%',
+          end: 'bottom bottom',
+          onToggle: function (self) {
+            if (progress) progress.classList.toggle('qsm-progress--visible', self.isActive);
+          },
+          onUpdate: function (self) {
+            var bar = progress ? progress.querySelector('.qsm-progress__bar') : null;
+            if (bar) bar.style.transform = 'scaleX(' + self.progress.toFixed(4) + ')';
+          }
+        });
+
+      }, section);
+
     } catch (err) {
-      // Any failure while wiring the narrative -> fall back to the plain grid,
-      // never leave cards stuck in their hidden initial state.
       if (ctx) { try { ctx.revert(); } catch (e) {} }
-      document.documentElement.classList.remove('qsm-on');
-      inner.style.removeProperty('--qsm-nav');
-      if (window.console) console.warn('[sangfor-motion] desktop narrative disabled:', err);
+      restore();
+      if (window.console) console.warn('[sangfor-motion] panels disabled:', err);
       return function () {};
     }
 
-    // matchMedia cleanup: revert everything this branch created.
-    return function () {
-      ctx.revert();
+    function restore() {
       document.documentElement.classList.remove('qsm-on');
       inner.style.removeProperty('--qsm-nav');
+      cards.forEach(function (card) {
+        card.style.zIndex = '';
+        card.removeAttribute('data-qsm-idx');
+        card.removeAttribute('data-qsm-num');
+        card.removeAttribute('data-qsm-dark');
+        var veil = card.querySelector('.qsm-veil');
+        if (veil) veil.remove();
+      });
+      moved.forEach(function (m) { m.home.appendChild(m.node); });
+      if (progress) progress.classList.remove('qsm-progress--visible', 'qsm-progress--ondark');
+    }
+
+    return function () {
+      ctx.revert();
+      restore();
     };
   }
-
-  function setProgress(section, idx, n, p) {
-    var cur = section.querySelector('.qsm-progress__current');
-    var bar = section.querySelector('.qsm-progress__bar');
-    if (cur) cur.textContent = pad(idx + 1);
-    if (bar) bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
-  }
-
-  function pad(v) { return v < 10 ? '0' + v : String(v); }
 
   /* --------------------------------------------------------------
      TABLET + MOBILE — reveal each card as it enters the viewport
@@ -266,7 +259,7 @@
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add('qsm-in');
-          io.unobserve(entry.target);        // reveal once, never hide again
+          io.unobserve(entry.target);
         }
       });
     }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });

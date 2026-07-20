@@ -1,19 +1,19 @@
 /* ================================================================
-   QUNOX — Sangfor "Soluciones" scroll-motion experience
-   Encapsulated: only affects the #productos section.
-   Prefix: qsm- (QUNOX Services Motion) + data-service-motion-*
+   QUNOX — Sangfor "Soluciones" scroll-motion experience  v2
+   Pattern: stacked sticky panels (Izanami-style) — each solution
+   is a full-height panel; the next one slides up and covers it.
+   Native sticky compositing = 1:1 scroll mapping, no scrub lag.
    ----------------------------------------------------------------
-   Default (no JS / fallback): the original grid is untouched.
-   html.qsm-on     -> desktop pinned scroll narrative
+   Encapsulated: only affects #productos. Prefix: qsm-.
+   Default (no JS / fallback): original grid untouched.
+   html.qsm-on     -> desktop stacked-panel narrative
    html.qsm-reveal -> tablet/mobile staggered reveal-on-enter
    ================================================================ */
 
-/* Visual + progress layers are hidden unless the desktop
-   narrative is active — the fallback shows only the grid. */
 .qsm-visuals,
 .qsm-progress { display: none; }
 
-/* ---- Button / link hover swap (progressive, all breakpoints) ---- */
+/* ---- Button / link hover swap (all breakpoints) ---- */
 .qsm-swap {
   position: relative;
   display: inline-block;
@@ -36,7 +36,7 @@
 }
 
 /* ================================================================
-   REVEAL-ON-ENTER  (tablet + mobile, JS on, motion allowed)
+   REVEAL-ON-ENTER  (tablet + mobile)
    ================================================================ */
 html.qsm-reveal .sf-pcard {
   opacity: 0;
@@ -51,134 +51,197 @@ html.qsm-reveal .sf-pcard.qsm-in {
 }
 
 /* ================================================================
-   DESKTOP PINNED NARRATIVE  (html.qsm-on, >=1025px)
+   DESKTOP — STACKED STICKY PANELS  (html.qsm-on, >=1025px)
    ================================================================ */
 @media (min-width: 1025px) {
 
-  html.qsm-on .sf-products { background: #fff; }
+  html.qsm-on .sf-products { overflow: visible; }
 
-  /* The pinned stage: header on top, then content | visual */
   html.qsm-on .sf-products__inner {
     --qsm-nav: 90px;
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-      "head head"
-      "content visual";
-    column-gap: 4rem;
-    row-gap: 1.5rem;
-    align-items: stretch;
-    min-height: calc(100vh - var(--qsm-nav));
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
-    box-sizing: border-box;
-    position: relative;
-  }
-
-  html.qsm-on .sf-products__header {
-    grid-area: head;
-    margin-bottom: 0;
-    max-width: 640px;
-  }
-
-  /* ---- CONTENT COLUMN: cards stacked, only active shown ---- */
-  html.qsm-on .sf-products__grid {
-    grid-area: content;
-    display: block;
-    position: relative;
-    width: 100%;
-  }
-  html.qsm-on .sf-pcard {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    max-width: none;
     padding: 0;
     margin: 0;
+  }
+
+  /* Header keeps its own comfortable block before the panels */
+  html.qsm-on .sf-products__header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4.5rem;
+  }
+
+  /* The grid becomes a plain flow container for the panels */
+  html.qsm-on .sf-products__grid {
+    display: block;
+    position: relative;
+  }
+
+  /* ---- Each solution = a full-height sticky panel ---- */
+  html.qsm-on .sf-pcard {
+    position: sticky;
+    top: var(--qsm-nav);
+    height: calc(100vh - var(--qsm-nav));
+    margin: 0;
+    padding: 0 clamp(2rem, 6vw, 7rem);
     border: none;
     border-radius: 0;
     box-shadow: none;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    column-gap: clamp(2.5rem, 5vw, 5.5rem);
+    align-items: center;
+    align-content: center;
     cursor: pointer;
-    transform: none !important;      /* GSAP handles children, not the card lift */
-    overflow: visible;
+    /* panel gradient set per-panel below */
+    background: #fff;
+    will-change: transform;
+    transform-origin: center top;
+    /* the base card transition would smear the scrubbed scale — kill it */
+    transition: none;
   }
-  html.qsm-on .sf-pcard::after { display: none; }        /* kill card hover glow */
-  html.qsm-on .sf-pcard:hover {
-    border: none;
-    box-shadow: none;
-    transform: none;
+  /* the base hover glow layer doesn't belong on full panels */
+  html.qsm-on .sf-pcard::after { display: none; }
+  /* While covered by the next panel, a soft veil adds depth (GSAP drives opacity) */
+  html.qsm-on .sf-pcard .qsm-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(12,8,10,0.55) 0%, rgba(12,8,10,0.25) 100%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+  }
+  /* Hairline + soft shadow along the top edge of every incoming panel */
+  html.qsm-on .sf-pcard { box-shadow: 0 -1px 0 rgba(0,0,0,0.06), 0 -24px 48px -24px rgba(10,6,8,0.18); }
+
+  /* Panel gradients — a quiet progression that differentiates each solution */
+  html.qsm-on .sf-pcard[data-qsm-idx="0"] { background: linear-gradient(168deg, #ffffff 0%, #f8f3f4 78%, #f4edee 100%); }
+  html.qsm-on .sf-pcard[data-qsm-idx="1"] { background: linear-gradient(168deg, #fdfcfe 0%, #f3f0f7 78%, #ede9f2 100%); }
+  html.qsm-on .sf-pcard[data-qsm-idx="2"] { background: linear-gradient(168deg, #fffdfa 0%, #f7f1e9 78%, #f2ebe1 100%); }
+  html.qsm-on .sf-pcard[data-qsm-idx="3"] { background: linear-gradient(168deg, #fbfdfe 0%, #eef3f6 78%, #e8eef2 100%); }
+  html.qsm-on .sf-pcard[data-qsm-idx="4"] { background: linear-gradient(168deg, #fffbfb 0%, #f8eded 78%, #f3e5e6 100%); }
+  /* Final panel goes dark — hands off into the dark Recursos section */
+  html.qsm-on .sf-pcard[data-qsm-idx="5"] {
+    background: linear-gradient(172deg, #17090d 0%, #260a12 55%, #3a000f 100%);
   }
 
-  /* Title becomes the dominant element, clipped for the reveal */
+  /* Whole panel is the original link, but only the interactive zones
+     capture the pointer, so scrolling over a panel never mis-clicks */
+  html.qsm-on .sf-pcard { pointer-events: none; }
+  html.qsm-on .sf-pcard .sf-pcard__name,
+  html.qsm-on .sf-pcard .sf-pcard__cta { pointer-events: auto; }
+
+  /* ---- Text column ---- */
+  html.qsm-on .sf-pcard > *:not(.qsm-visual):not(.qsm-veil) {
+    grid-column: 1;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Editorial index number above the tag (decorative, from data attr) */
+  html.qsm-on .sf-pcard::before {
+    content: attr(data-qsm-num);
+    grid-column: 1;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    color: rgba(109,0,26,0.45);
+    margin-bottom: 1.4rem;
+  }
+
+  html.qsm-on .sf-pcard__tag { justify-self: start; margin-bottom: 1.3rem; }
+
   html.qsm-on .sf-pcard__name {
-    overflow: hidden;
-    font-size: clamp(2.2rem, 3.6vw, 3.4rem);
-    line-height: 1.02;
+    overflow: hidden;                 /* clip container for the title reveal */
+    font-size: clamp(2.6rem, 4.2vw, 4rem);
+    line-height: 1.04;
     letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
   }
   html.qsm-on .qsm-titleline { display: inline-block; will-change: transform; }
 
-  html.qsm-on .sf-pcard__tag { align-self: flex-start; margin-bottom: 1.1rem; }
-  html.qsm-on .sf-pcard__full { font-size: 0.95rem; margin-bottom: 1.25rem; }
-  html.qsm-on .sf-pcard__desc { font-size: 0.98rem; max-width: 32rem; }
-  html.qsm-on .sf-pcard__features { margin-top: 0.35rem; }
+  html.qsm-on .sf-pcard__full { font-size: 1rem; margin-bottom: 1.4rem; }
+  html.qsm-on .sf-pcard__desc { font-size: 1rem; line-height: 1.7; max-width: 33rem; }
+  html.qsm-on .sf-pcard__features { margin-top: 0.4rem; max-width: 33rem; }
+  html.qsm-on .sf-pcard__features li { font-size: 0.86rem; }
   html.qsm-on .sf-pcard__cta {
-    opacity: 1;              /* always shown in narrative mode */
+    opacity: 1;
     transform: none;
-    margin-top: 1.6rem;
+    margin-top: 1.8rem;
     padding-top: 0;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
+    justify-self: start;
   }
 
-  /* ---- VISUAL COLUMN ---- */
-  html.qsm-on .qsm-visuals {
-    grid-area: visual;
+  /* Dark finale panel: readable light text */
+  html.qsm-on .sf-pcard[data-qsm-dark]::before { color: rgba(255,255,255,0.40); }
+  html.qsm-on .sf-pcard[data-qsm-dark] .sf-pcard__tag { background: rgba(255,255,255,0.10); color: #f2b8c6; }
+  html.qsm-on .sf-pcard[data-qsm-dark] .sf-pcard__name { color: #ffffff; }
+  html.qsm-on .sf-pcard[data-qsm-dark] .sf-pcard__full { color: rgba(255,255,255,0.45); }
+  html.qsm-on .sf-pcard[data-qsm-dark] .sf-pcard__desc { color: rgba(255,255,255,0.72); }
+  html.qsm-on .sf-pcard[data-qsm-dark] .sf-pcard__features li { color: rgba(255,255,255,0.60); }
+  html.qsm-on .sf-pcard[data-qsm-dark] .sf-pcard__features li::before { color: rgba(255,255,255,0.35); }
+  html.qsm-on .sf-pcard[data-qsm-dark] .sf-pcard__cta { color: #f2b8c6; }
+
+  /* ---- Visual column (JS moves each .qsm-visual into its panel) ---- */
+  html.qsm-on .sf-pcard .qsm-visual {
     display: block;
+    grid-column: 2;
+    grid-row: 1 / span 8;
     position: relative;
+    z-index: 1;
     width: 100%;
-    height: 100%;
-    align-self: center;
-    max-height: min(64vh, 560px);
-    border-radius: 18px;
+    height: min(66vh, 580px);
+    border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 24px 64px -32px rgba(30,10,16,0.25);
   }
-  html.qsm-on .qsm-visual {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    border-radius: 18px;
-    clip-path: inset(100% 0 0 0);
-    opacity: 0;
-    will-change: clip-path, opacity;
+  html.qsm-on .sf-pcard[data-qsm-dark] .qsm-visual {
+    box-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 24px 64px -24px rgba(0,0,0,0.6);
   }
   html.qsm-on .qsm-visual__inner {
     position: absolute;
-    inset: -6%;                 /* extra bleed for parallax */
-    width: 112%;
-    height: 112%;
+    inset: -5%;
+    width: 110%;
+    height: 110%;
     will-change: transform;
   }
   html.qsm-on .qsm-visual svg { width: 100%; height: 100%; display: block; }
 
-  /* ---- PROGRESS INDICATOR (secondary) ---- */
+  /* Fine grain so surfaces don't feel synthetic */
+  html.qsm-on .qsm-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  /* ---- Progress indicator: fixed while the panels are on screen ---- */
   html.qsm-on .qsm-progress {
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    position: absolute;
-    left: 0;
-    bottom: 1.5rem;
+    position: fixed;
+    left: clamp(2rem, 6vw, 7rem);
+    bottom: 2rem;
+    z-index: 50;
     font-family: 'Space Grotesk', sans-serif;
-    z-index: 4;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+  html.qsm-on .qsm-progress.qsm-progress--visible {
+    opacity: 1;
+    transform: none;
   }
   html.qsm-on .qsm-progress__num {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
     color: #6D001A;
     font-variant-numeric: tabular-nums;
@@ -188,9 +251,9 @@ html.qsm-reveal .sf-pcard.qsm-in {
   html.qsm-on .qsm-progress__total { color: #9ca3af; }
   html.qsm-on .qsm-progress__track {
     position: relative;
-    width: 160px;
+    width: 150px;
     height: 2px;
-    background: rgba(0,0,0,0.10);
+    background: rgba(0,0,0,0.12);
     border-radius: 2px;
     overflow: hidden;
   }
@@ -201,20 +264,21 @@ html.qsm-reveal .sf-pcard.qsm-in {
     transform-origin: left center;
     transform: scaleX(0);
   }
-
-  /* Prevent horizontal overflow from the bleeding parallax layer */
-  html.qsm-on .sf-products { overflow: hidden; }
+  /* On the dark finale the counter must stay readable */
+  html.qsm-on .qsm-progress.qsm-progress--ondark .qsm-progress__num { color: #f2b8c6; }
+  html.qsm-on .qsm-progress.qsm-progress--ondark .qsm-progress__total { color: rgba(255,255,255,0.4); }
+  html.qsm-on .qsm-progress.qsm-progress--ondark .qsm-progress__track { background: rgba(255,255,255,0.18); }
 }
 
-/* Give a little more breathing room on very tall viewports */
-@media (min-width: 1025px) and (min-height: 900px) {
-  html.qsm-on .qsm-visuals { height: min(58vh, 560px); }
+/* Shorter viewports: tighten the visual so text never clips */
+@media (min-width: 1025px) and (max-height: 780px) {
+  html.qsm-on .sf-pcard .qsm-visual { height: min(58vh, 460px); }
+  html.qsm-on .sf-pcard__name { font-size: clamp(2.1rem, 3.4vw, 3rem); }
+  html.qsm-on .sf-pcard__desc { font-size: 0.92rem; }
 }
 
 /* ================================================================
-   REDUCED MOTION — nothing above should ever hide content.
-   (JS also refuses to add qsm-on / qsm-reveal in this case, but
-   this is a belt-and-suspenders guarantee.)
+   REDUCED MOTION — never hide content
    ================================================================ */
 @media (prefers-reduced-motion: reduce) {
   html.qsm-reveal .sf-pcard { opacity: 1; transform: none; transition: none; }
